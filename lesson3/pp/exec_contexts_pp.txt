@@ -1,0 +1,136 @@
+1.
+function foo() {
+  return this;
+}
+
+let context = foo();
+console.log(context); // => Window {...}
+
+// in the browser, Window is the value of the global obj
+
+2.
+"use strict";
+function foo() {
+  return this;
+}
+
+let context = foo();
+console.log(context); // => undefined
+
+// in strict mode, 'this' in the global scope is undefined
+
+3.
+let obj = {
+  foo() {
+    return this;
+  },
+};
+
+let context = obj.foo();
+console.log(context); // {foo: f}; logs the value of obj (apparently 'f' reps a method)
+
+// implicit method exec context is the calling obj
+
+4.
+var message = 'Hello from the global scope!';
+function deliverMessage() {
+  console.log(this.message);
+}
+deliverMessage(); // => 'Hello from the global scope!'
+// implicit exec context of a fn is the global obj
+
+let bar = {
+  message: 'Hello from the function scope!',
+};
+bar.deliverMessage = deliverMessage;
+bar.deliverMessage(); // => 'Hello from the function scope!'
+// implicit exec context of a method is calling obj; bar.deliverMessage is a method of the bar obj; 'this' is equal to bar
+// from the Solution ... this.message resolves to bar's property message.
+
+5.a)
+var a = 10;
+let b = 10;
+let c = {
+  a: -10,
+  b: -10,
+};
+
+function add() {
+  return this.a + b; // 'b' is always globally scoped; 'this.a' depends on the fn exec context
+}
+
+c.add = add;
+
+console.log(add()); // => 20
+console.log(c.add()); // => 0
+
+5.b)
+let a = 10;
+let b = 10;
+let c = {
+  a: -10,
+  b: -10,
+};
+
+function add() {
+  return this.a + b;
+}
+
+c.add = add;
+
+console.log(add()); // => NaN
+console.log(c.add()); // => 0
+// from the Solution ...  global var variables create properties on the global object, but let and const create variables that don't belong to any object
+
+6.
+the 'call' and 'apply' methods allow us to explicity set a fn's exec context
+
+7.
+let foo = {
+  a: 1,
+  b: 2,
+};
+
+let bar = {
+   a: 'abc',
+   b: 'def',
+   add() {
+     return this.a + this.b;
+   },
+};
+
+bar.add.call(foo); // 3
+
+8.
+let fruitsObj = {
+  list: ['Apple', 'Banana', 'Grapefruit', 'Pineapple', 'Orange'],
+  title: 'A Collection of Fruit',
+};
+
+function outputList() {
+  console.log(this.title + ':');
+
+  let args = [].slice.call(arguments);
+
+  args.forEach(function(elem) {
+    console.log(elem);
+  });
+}
+
+// invoke outputList on the fruitsObj using apply;
+// pass fruitsObj.list as a list of args for the fn
+outputList.apply(fruitsObj, fruitsObj.list);
+// outputList.call(fruitsObj, ...fruitsObj.list); // this works too ...
+
+// output:
+A Collection of Fruit:
+Apple
+Banana
+Grapefruit
+Pineapple
+Orange
+
+9.
+let args = [].slice.call(arguments);
+// calls the Array slice method on an empty arr w/ the arguments obj as the exec context;
+// slice is called w/o args, so this creates a shallow copy of the list of args ???

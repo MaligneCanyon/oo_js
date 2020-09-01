@@ -1,0 +1,46 @@
+1.
+- w/o strict mode, the global (browser: window) obj serves as the implicit exec context
+- in strict mode, we don't have access to the global obj as the implicit context
+
+2.
+a = 10;
+console.log(window.a === a); //=> true
+
+3.
+"use strict";
+a = 10; // raises a ReferenceError
+console.log(window.a === a); // nothing is logged
+
+4.
+function func() { // defs a fn in the global scope
+  let b = 1; // decs a fn-scoped local var
+} // implicitly rtns undefined
+
+func(); // calls the fn, does nothing w/ the rtn value
+
+console.log(b); // ReferenceError
+// 'b' is not a property of the global obj and is therefore inaccessible
+// outside the fn
+
+5.
+function func() { // defs a fn in the global scope
+  b = 1; // 'b' is init'd but undeclared; creates a property on the global obj w/ value 1
+} // implicitly rtns undefined
+
+func(); // calls the fn, does nothing w/ the rtn value
+
+console.log(b); // => 1
+// 'b' is a property of the global obj and is therefore accessible
+
+6.
+"use strict"
+
+function func() {
+  b = 1; // 'b' is init'd but undeclared; the global obj is inaccessible
+}
+
+// func(); // raises a ReferenceError
+
+// console.log(b);
+// in strict mode, we don't have access to the global obj as an implicit exec context;
+// this prevents access to undeclared vars
