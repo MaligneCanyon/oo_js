@@ -1,0 +1,92 @@
+1.
+function whatIsMyContext() {
+  return this;
+}
+// fn never exec'd; exec context unknown
+
+2.
+function whatIsMyContext() {
+  return this;
+}
+
+whatIsMyContext();
+// 'this' pts to the global obj (window in the browser)
+
+3.
+function foo() {
+  function bar() {
+    function baz() {
+      console.log(this);
+    }
+
+    baz();
+  }
+
+  bar();
+}
+
+foo();
+// nested fns inherit exec context;
+// 'this' pts to the global obj
+
+4.
+let obj = {
+  count: 2,
+  method() {
+    return this.count;
+  },
+};
+
+obj.method();
+// 'this' points to the owning object 'obj'
+
+5.
+"use strict";
+function foo() {
+  console.log(this.a);
+}
+
+let a = 2;
+foo();
+// 'a' is def'd using let, so it doesn't belong to any object;
+// in strict mode the implicit exec context is undefined
+// raises a TypeError since property 'a' doesn't exist on undefined
+
+6.
+let a = 1;
+function bar() {
+  console.log(this.a);
+}
+
+let obj = {
+  a: 2,
+  foo: bar,
+};
+
+obj.foo();
+// bar is invoked as a method;
+// 'this' is the owning object obj;
+// so the code logs the value of obj.a or 2
+
+7.
+let foo = {
+  a: 1,
+  bar() {
+    console.log(this.baz());
+  },
+
+  baz() {
+    return this;
+  },
+};
+
+foo.bar(); // logs 'foo'
+// foo.bar is exec'd as a method; exec context is the foo object
+// foo.bar logs the value of foo.baz
+// foo.baz is exec'd as a method; exec context is the foo object
+// rtn value of foo.baz is the foo object
+
+let qux = foo.bar;
+qux(); // raises an err
+// qux executes foo.bar as a fn; exec context is the global object
+// baz is undefined in the global context, so raises a TypeError (baz is not a fn)
