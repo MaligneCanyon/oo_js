@@ -1,8 +1,10 @@
 let total = 0;
+
 function add(incr) {
   total += incr;
   console.log(total);
 }
+
 function subtract(incr) {
   add(-incr);
 }
