@@ -1,4 +1,4 @@
-// based on the Solution ...
+// see file ../lesson4/closures_prob2.js
 function makeList() {
   let obj = {
     todos: [], // makes the todos list a property of the obj (accessible outside the fn)
@@ -30,24 +30,39 @@ function makeList() {
 
 let list = makeList();
 
-list.add('test');         // adds
-list.add('test');         // err
-list.list();              // lists
-console.log(list.todos);  // ['test']
-list.remove('testy');     // err
-list.remove('test');      // removes
+list.add('test');         //=> test added!
+list.add('test');         //=> test already exists.
+list.list();              //=> test
+console.log(list.todos);  //=> [ 'test' ]
+list.remove('testy');     //=> testy was not found.
+list.remove('test');      //=> test removed!
 console.log();
 
 list.list();
-// The list is empty.
+//=> The list is empty.
 list.add('make breakfast');
-// make breakfast added!
+//=> make breakfast added!
 list.add('read book');
-// read book added!
+//=> read book added!
 list.list();
-// make breakfast
-// read book
+//=> make breakfast
+//=> read book
 list.remove('make breakfast');
-// make breakfast removed!
+//=> make breakfast removed!
 list.list();
-// read book
+//=> read book
+
+list = makeList();
+list.add('peas');
+// = peas added!
+list.list();
+// = peas
+list.add('corn');
+// = corn added!
+list.list();
+// = peas
+// = corn
+list.remove('peas');
+// = peas removed!
+list.list();
+// = corn

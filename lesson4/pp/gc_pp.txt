@@ -1,0 +1,61 @@
+1.
+JS is a GC'd language; mem alloc / de-alloc is handled autom when objs and primitive values are created / no longer ref'd
+
+2.
+let myNum = 1;
+
+function foo() {
+  let myStr = 'A string';
+  // what is eligible for GC here? // line5: nothing (foo has not yet been exec'd)
+}
+
+foo();
+
+// what is eligible for GC here? // line10: 'A string'
+
+// more code
+
+// '1' isn't avail for GC at any pt during prog exec (ref'd by global var 'myNum')
+
+
+3.
+let outerFoo;
+
+function bar() {
+  let innerFoo = 0;
+  outerFoo = innerFoo;
+}
+
+bar();
+
+// can outerFoo's 0 be garbage collected here? // line10: no
+
+// more code
+
+// '0' isn't available for GC; it is the current (and accessible) value of the globally-scoped outerFoo var
+
+
+4.
+function makeEvenCounter() {
+  let index = 0;
+  return function() {
+    return index += 2;
+  };
+}
+
+let evenCounter = makeEvenCounter();
+
+// is 0 eligible for GC here? // line10: no
+
+// more code
+
+// '0' isn't available for GC; the closure created by makeEvenCounter still requires access to that value; 
+// evenCounter hasn't been invoked yet, but could be at any subsequent pt in the code
+
+
+5.
+let bash = "Some val";
+
+// "Some val" will be eligible for garbage collection when the script finishes executing
+// Note: if there was subsequent code in the script, since the str is ref'd by the globally-scoped var 'bash', 
+// the str must endure until the ref by bash (or any other ref to it) ceases (ex. bash is reassigened)

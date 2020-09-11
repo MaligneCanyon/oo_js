@@ -1,0 +1,31 @@
+1.
+let a = 34;
+
+function add(b) {
+  a += b;
+}
+
+function run() {
+  let c = add(4);
+}
+
+run();
+
+// the value of 'c' cannot be GC'd until after run() execs
+// the value of 'b' cannot be GC'd until after add() execs
+// the original value of 'a' can be GC'd after 'a' is reassigned in add()
+// the final value of 'a' cannot be GC'd until the prog finishes; its value
+// is still accessible even after run() execs
+
+
+2.
+function makeHello(name) {
+  return function() {
+    console.log("Hello, " + name + "!");
+  };
+}
+
+let helloSteve = makeHello("Steve");
+
+// 'Steve' cannot be GC'd until the prog finishes, as the helloSteve fn
+// could be called (and the closure created by makeHello ref'd) at any time

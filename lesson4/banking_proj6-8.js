@@ -10,12 +10,17 @@ function makeBank() { // proj6
       this.accounts.push(acct);
       return acct;
     },
+
+    transfer (source, destination, amount) { // proj8
+      destination.deposit(source.withdraw(amount));
+      return amount;
+    },
   };
 
   return bank;
 }
 
-// function makeAccount() {
+// function makeAccount() { // proj5
 function makeAccount(number) { // proj7
   let account = {
     number, // proj7
@@ -36,9 +41,10 @@ function makeAccount(number) { // proj7
     },
   };
 
-  return account;
+  return account; // proj5
 }
 
+// proj7 ...
 let bank = makeBank();
 // console.log('bank:', bank);
 let account = bank.openAccount();
@@ -52,3 +58,16 @@ console.log(bank.accounts[0]);
 let secondAccount = bank.openAccount();
 console.log(secondAccount.number);
 // = 102
+
+// proj8 ...
+// let bank = makeBank();
+let source = bank.openAccount();
+console.log(source.deposit(10));
+// = 10
+let destination = bank.openAccount();
+console.log(bank.transfer(source, destination, 7));
+// = 7
+console.log(source.balance);
+// = 3
+console.log(destination.balance);
+// = 7

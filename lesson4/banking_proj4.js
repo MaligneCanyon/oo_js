@@ -20,9 +20,11 @@ let account = {
 console.log(account.deposit(23));
 // = 23
 console.log(account.transactions);
-// = [{...}]
+// = [{...}] // specifically, [ {type: "deposit", amount: 23} ]
 console.log(account.transactions[0]);
 // = {type: "deposit", amount: 23}
 
 console.log(account.withdraw(11));
+//=> 11
 console.log(account.transactions);
+//=> [ { type: 'deposit', amount: 23 }, { type: 'withdrawal', amount: 11 } ]

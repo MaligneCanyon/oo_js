@@ -34,16 +34,18 @@ function makeList() {
 
 let list = makeList();
 
-list.add('test');         // adds
-list.add('test');         // err
-list.list();              // lists
-console.log(list.todos);  // undefined
-list.remove('testy');     // err
-list.remove('test');      // removes
-list.add('a');            // adds
-list.add('b');            // adds
-list.add('c');            // adds
-list.clear();             // clears
+list.add('test');         //=> test added!
+list.add('test');         //=> test already exists.
+list.list();              //=> test
+console.log(list.todos);  //=> undefined
+list.remove('testy');     //=> testy was not found.
+list.remove('test');      //=> test removed!
+console.log();
+
+list.add('a');            //=> a added!
+list.add('b');            //=> b added!
+list.add('c');            //=> c added!
+list.clear();             //=> The list was cleared.
 console.log();
 
 list.list();

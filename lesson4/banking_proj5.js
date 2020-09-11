@@ -1,4 +1,4 @@
-function makeAccount() {
+function makeAccount() { // proj5
   let account = {
     balance: 0, // proj1
     transactions: [], // proj4
@@ -17,7 +17,7 @@ function makeAccount() {
     },
   };
 
-  return account;
+  return account; // proj5
 }
 
 let account = makeAccount();

@@ -17,7 +17,11 @@ console.log(account.deposit(81));
 // = 81
 console.log(account.balance);
 // = 81
+console.log(account.withdraw(10));
+// = 10
+console.log(account.balance);
+// = 71
 console.log(account.withdraw(91));
-// = 81
+// = 71
 console.log(account.balance);
 // = 0
