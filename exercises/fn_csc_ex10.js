@@ -1,10 +1,8 @@
-// 1. Make the list students private. Right now, anyone can gain access to it and manipulate it.
-// 2. Make the constraint for allowed values for years a private variable. As a private variable it
-//    avoids an unnecessary statement in the addStudent method and at the same time makes the
-//    code more declarative.
-// 3. Make the getCourse function accessible in the addGrade method also. As it is, only the
-//    courseReport method has access.
+// see file ../exercises/objects_ex5.js
 
+// #1 Make the list students private.
+// #2 Make the constraint for allowed values for years a private variable.
+// #3 Make the getCourse function accessible in the addGrade method also.
 
 function createStudent(name, year, courses = []) {
   return {
@@ -59,11 +57,14 @@ function createStudent(name, year, courses = []) {
 // let school = {
 let school = (function () { // #1
   let students = []; // #1
+  const validYears = ['1st', '2nd', '3rd', '4th', '5th']; // #2
+
   return { // #1
     // students: [],
-
     addStudent(data) {
-      if (/1st|2nd|3rd|4th|5th/.test(data.year)) {
+      // if (/1st|2nd|3rd|4th|5th/.test(data.year)) {
+      // if (['1st', '2nd', '3rd', '4th', '5th'].includes(year)) { // from the Solution to objects_ex5.js
+      if (validYears.includes(data.year)) { // #2
         let student = createStudent(data.name, data.year, data.courses);
         // console.log(student);
         // this.students.push(student);
@@ -94,23 +95,21 @@ let school = (function () { // #1
       else this.displayStudentErr(student);
     },
 
-    addGrade(student, course, grade) {
+    addGrade(student, courseName, grade) {
       if (this.isStudent(student)) { // student exists
-        let courseNdx = student.courses.map(({code}) => code).indexOf(course.code); // compact syntax
-        if (courseNdx > -1) { // student is enrolled
-          student.courses[courseNdx].grade = grade;
-        } else console.log(`${student.name} is not enrolled in ${course.name}`);
+        // let courseNdx = student.courses.map(({name}) => name).indexOf(courseName); // compact syntax
+        // if (courseNdx > -1) { // student is enrolled
+          // student.courses[courseNdx].grade = grade;
+        let course = this.getCourse(student, courseName); // #3
+        if (course) { // student is enrolled // #3
+          course.grade = grade; // #3
+        } else console.log(`${student.name} is not enrolled in ${courseName}`);
       } else this.displayStudentErr(student);
     },
-    // from the Solution ...
-    // addGrade(student, courseName, grade) {
-    //   const course = student.listCourses().filter(({name}) => name === courseName)[0];
-    //   if (course) course.grade = grade;
-    // },
 
     getReportCard(student) {
       console.log();
-      console.log(`// getReportCard output`);
+      console.log(`// getReportCard output for '${student.name}'`);
 
       if (this.isStudent(student)) { // student exists
         student.courses.forEach(course => {
@@ -119,25 +118,30 @@ let school = (function () { // #1
       } else this.displayStudentErr(student);
     },
 
-    getCourseNdx(courseName, student) {
-      return student.courses.map(course => course.name).indexOf(courseName);
+    // getCourseNdx(courseName, student) {
+    //   return student.courses.map(course => course.name).indexOf(courseName);
+    // },
+    getCourse(student, courseName) { // #3
+      return student.courses.filter(({name}) => name === courseName)[0];
     },
 
     courseReport(courseName) {
       console.log();
-      console.log(`// courseReport output`);
-
+      console.log(`// courseReport output for '${courseName}'`);
       // let gradedStudents = this.students.filter(student => {
       let gradedStudents = students.filter(student => { // #1
-        let courseNdx = this.getCourseNdx(courseName, student);
-        return courseNdx > -1 && Object.keys(student.courses[courseNdx]).includes('grade');
+        // let courseNdx = this.getCourseNdx(courseName, student);
+        // return courseNdx > -1 && Object.keys(student.courses[courseNdx]).includes('grade');
+        let course = this.getCourse(student, courseName); // #3
+        return course && Object.keys(course).includes('grade'); // #3
       });
 
       if (gradedStudents.length) {
         console.log(`=${courseName} Grades=`);
         let courseAvg = gradedStudents.reduce((accum, student) => {
-          let courseNdx = this.getCourseNdx(courseName, student);
-          let grade = student.courses[courseNdx].grade;
+          // let courseNdx = this.getCourseNdx(courseName, student);
+          // let grade = student.courses[courseNdx].grade;
+          let grade = this.getCourse(student, courseName).grade; // #3
           console.log(`${student.name}: ${grade}`);
           return accum + grade;
         }, 0) / gradedStudents.length;
@@ -166,16 +170,16 @@ let poo = school.addStudent({
   courses: [
     { name: 'Math', code: 101, grade: 95, },
   ],
-}); // should gen err msg
+}); // should gen err msg //=> '6th' is an invalid year
 
 console.log(school.students); // should now rtn 'undefined' since the property no longer exists
 
 school.enrollStudent(foo, { name: 'Physical Education', code: 601, });
 school.displayCourses(foo);
 school.enrollStudent(poo, { name: 'Physical Education', code: 601, }); // should gen err msg
-// school.addGrade(foo, { name: 'Physics', code: 202, }, 84);
-school.addGrade(foo, { name: 'Sonic Foosball', code: 999, }, 99); // should gen err msg
-school.addGrade(poo, { name: 'Sonic Foosball', code: 999, }, 99); // should gen err msg
+school.addGrade(foo, 'Physics', 84);
+school.addGrade(foo, 'Sonic Foosball', 99); // should gen err msg
+school.addGrade(poo, 'Sonic Foosball', 99); // should gen err msg
 school.displayCourses(foo);
 school.displayCourses(poo); // should gen err msg
 

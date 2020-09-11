@@ -88,12 +88,12 @@ let school = {
     else this.displayStudentErr(student);
   },
 
-  addGrade(student, course, grade) {
+  addGrade(student, courseName, grade) {
     if (this.isStudent(student)) { // student exists
-      let courseNdx = student.courses.map(({code}) => code).indexOf(course.code); // compact syntax
+      let courseNdx = student.courses.map(({name}) => name).indexOf(courseName); // compact syntax
       if (courseNdx > -1) { // student is enrolled
         student.courses[courseNdx].grade = grade;
-      } else console.log(`${student.name} is not enrolled in ${course.name}`);
+      } else console.log(`${student.name} is not enrolled in ${courseName}`);
     } else this.displayStudentErr(student);
   },
   // from the Solution ...
@@ -104,7 +104,7 @@ let school = {
 
   getReportCard(student) {
     console.log();
-    console.log(`// getReportCard output`);
+    console.log(`// getReportCard output for '${student.name}'`);
 
     if (this.isStudent(student)) { // student exists
       student.courses.forEach(course => {
@@ -119,7 +119,7 @@ let school = {
 
   courseReport(courseName) {
     console.log();
-    console.log(`// courseReport output`);
+    console.log(`// courseReport output for '${courseName}'`);
 
     let gradedStudents = this.students.filter(student => {
       let courseNdx = this.getCourseNdx(courseName, student);
@@ -157,16 +157,16 @@ let poo = school.addStudent({
   courses: [
     { name: 'Math', code: 101, grade: 95, },
   ],
-}); // should gen err msg
+}); // should gen err msg //=> '6th' is an invalid year
 
 console.log(school.students); // should only contain foo
 
 school.enrollStudent(foo, { name: 'Physical Education', code: 601, });
 school.displayCourses(foo);
 school.enrollStudent(poo, { name: 'Physical Education', code: 601, }); // should gen err msg
-// school.addGrade(foo, { name: 'Physics', code: 202, }, 84);
-school.addGrade(foo, { name: 'Sonic Foosball', code: 999, }, 99); // should gen err msg
-school.addGrade(poo, { name: 'Sonic Foosball', code: 999, }, 99); // should gen err msg
+school.addGrade(foo, 'Physics', 84);
+school.addGrade(foo, 'Sonic Foosball', 99); // should gen err msg
+school.addGrade(poo, 'Sonic Foosball', 99); // should gen err msg
 school.displayCourses(foo);
 school.displayCourses(poo); // should gen err msg
 
