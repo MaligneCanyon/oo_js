@@ -1,0 +1,4 @@
+- disadvantages of ffs are
+  - can't tell whether obj was created with a specific ff
+    - hard to know which "type" of obj was created
+  - objs have a copy of all methods from the template (redundant)

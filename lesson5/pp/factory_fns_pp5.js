@@ -1,0 +1,83 @@
+// function createInvoice(services = {}) {
+//   return {
+//     phone: services.phone || 3000,
+//     internet: services.internet || 5500,
+//     total () { return this.phone + this.internet; },
+//     addPayment (payment) {
+//       if (payment.amount) {
+//         this.phone -= payment.amount;
+//         // console.log('ph1:', this.phone);
+//         if (this.phone < 0) {
+//           this.internet += this.phone;
+//           this.phone = 0;
+//           // console.log('ph2:', this.phone);
+//           // console.log('inet:', this.internet);
+//         }
+//       } else {
+//         this.phone -= payment.phone;
+//         this.internet -= payment.internet;
+//       }
+//     },
+//     addPayments (payments) {
+//       let self = this;
+//       payments.forEach(payment => self.addPayment(payment));
+//     },
+//     amountDue () {
+//       return this.total();
+//     },
+//   };
+// }
+function createInvoice(services = {}) {
+  return {
+    phone: services.phone || 3000,
+    internet: services.internet || 5500,
+    payments: [],
+    total () { return this.phone + this.internet; },
+    addPayment (payment) {
+      this.payments.push(payment);
+    },
+    addPayments (paymentsArr) {
+      let self = this;
+      paymentsArr.forEach(payment => self.addPayment(payment));
+    },
+    totalPayments () {
+        return this.payments.reduce((accum, payment) => accum + payment.total(), 0);
+    },
+    amountDue () {
+      return this.total() - this.totalPayments();
+    },
+  };
+}
+
+function createPayment(services = {}) {
+  return {
+    phone: services.phone || 0,
+    internet: services.internet || 0,
+    amount: services.amount || 0,
+    total () { return this.amount || (this.phone + this.internet); },
+  };
+}
+
+
+let invoice = createInvoice({
+  phone: 1200,
+  internet: 4000,
+});
+
+let payment1 = createPayment({
+  amount: 2000,
+});
+
+let payment2 = createPayment({
+  phone: 1000,
+  internet: 1200,
+});
+
+let payment3 = createPayment({
+  phone: 1000,
+});
+
+invoice.addPayment(payment1);
+invoice.addPayments([payment2, payment3]);
+console.log(invoice.amountDue());       // this should return 0
+console.log(invoice);
