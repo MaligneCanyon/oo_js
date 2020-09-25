@@ -1,9 +1,9 @@
 function getDefiningObject(obj, propKey) {
-  do {
+  while (true) {
     if (!obj) return null;
     if (obj.hasOwnProperty(propKey)) return obj;
     obj = Object.getPrototypeOf(obj);
-  } while (true);
+  }
 }
 
 let foo = {
@@ -19,5 +19,5 @@ bar.c = 3;
 
 console.log(getDefiningObject(qux, 'c') === bar);     // => true
 console.log(getDefiningObject(qux, 'e'));             // => null
-console.log(getDefiningObject(undefined, 'e'));       // => null
 console.log(getDefiningObject('abc', 'e'));           // => null
+console.log(getDefiningObject(undefined, 'c'));       // => null

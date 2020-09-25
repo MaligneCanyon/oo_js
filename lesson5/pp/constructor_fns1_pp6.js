@@ -8,9 +8,10 @@ ninjaA = new Ninja();
 ninjaB = new Ninja();
 
 Ninja.prototype.swing = function () {
-  this.swung = true;
+  this.swung = !this.swung;
   return this; // must rtn the context obj (i.e. 'this')
-}
+};
 
-console.log(ninjaA.swing().swung); //=> true
-console.log(ninjaB.swing().swung); //=> true
+console.log(ninjaA.swing().swung);      // must log true
+console.log(ninjaB.swing().swung);      // must log true
+console.log(ninjaB.swing().swung);      // => false

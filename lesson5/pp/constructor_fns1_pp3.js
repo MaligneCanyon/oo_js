@@ -1,5 +1,4 @@
 // function Circle(radius) {
-//   this.radius = radius;
 //   this.area = function () { return Math.PI * radius * radius; };
 // }
 

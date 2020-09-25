@@ -7,7 +7,7 @@
 
 function makeObj() {
   return {
-    propA: 10,
+    propA: 10, // note ':' and ','
     propB: 20,
   };
 }

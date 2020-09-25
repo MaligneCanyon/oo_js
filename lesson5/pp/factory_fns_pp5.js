@@ -1,32 +1,3 @@
-// function createInvoice(services = {}) {
-//   return {
-//     phone: services.phone || 3000,
-//     internet: services.internet || 5500,
-//     total () { return this.phone + this.internet; },
-//     addPayment (payment) {
-//       if (payment.amount) {
-//         this.phone -= payment.amount;
-//         // console.log('ph1:', this.phone);
-//         if (this.phone < 0) {
-//           this.internet += this.phone;
-//           this.phone = 0;
-//           // console.log('ph2:', this.phone);
-//           // console.log('inet:', this.internet);
-//         }
-//       } else {
-//         this.phone -= payment.phone;
-//         this.internet -= payment.internet;
-//       }
-//     },
-//     addPayments (payments) {
-//       let self = this;
-//       payments.forEach(payment => self.addPayment(payment));
-//     },
-//     amountDue () {
-//       return this.total();
-//     },
-//   };
-// }
 function createInvoice(services = {}) {
   return {
     phone: services.phone || 3000,
@@ -41,7 +12,7 @@ function createInvoice(services = {}) {
       paymentsArr.forEach(payment => self.addPayment(payment));
     },
     totalPayments () {
-        return this.payments.reduce((accum, payment) => accum + payment.total(), 0);
+      return this.payments.reduce((accum, payment) => accum + payment.total(), 0);
     },
     amountDue () {
       return this.total() - this.totalPayments();

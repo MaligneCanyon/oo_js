@@ -8,9 +8,9 @@
 // function shallowCopy(obj) {
 //   let proto = Object.getPrototypeOf(obj);
 //   let newObj = Object.create(proto);
-//   for (let prop in obj) {
-//     // guard against property names that are reserved keywords or method names
+//   for (let prop in obj) { // enumerable properties only
 //     // if (obj.hasOwnProperty(prop)) {
+//     // guard against property names that are reserved keywords or method names
 //     if (Object.prototype.hasOwnProperty.call(obj, prop)) {
 //       newObj[prop] = obj[prop];
 //     }

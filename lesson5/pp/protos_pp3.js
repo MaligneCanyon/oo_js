@@ -1,14 +1,17 @@
 // function extend(destination) {
-//   Object.assign(destination, ...Array.from(arguments));
+//   Object.assign(destination, ...Array.from(arguments)); // a bit of a cheat ...
 //   // console.log(destination);
 //   return destination;
 // }
+
 function extend(destination) {
-  Array.from(arguments).forEach(obj => {
+  console.log(destination);
+  // Array.from(arguments).forEach(obj => {
+  Array.from(arguments).slice(1).forEach(obj => { // 1st arg is the destination obj
     let props = Object.getOwnPropertyNames(obj);
     props.forEach(prop => destination[prop] = obj[prop]);
   });
-  // console.log(destination);
+  console.log(destination);
   return destination;
 }
 
