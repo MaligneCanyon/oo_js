@@ -16,7 +16,6 @@ console.log(me); //=> { firstName: 'Jane', lastName: 'Doe' }
 function fullName(person) {
   console.log(person.firstName + ' ' + person.lastName);
 }
-
 fullName(me); //=> 'Jane Doe'
 
 let friend = {
@@ -48,6 +47,7 @@ function rollCall(collection) {
   //   fullName(collection[i]);
   // }
 
-  collection.forEach(item => fullName(item));
+  // collection.forEach(item => fullName(item));
+  collection.forEach(fullName);
 }
 rollCall(people);

@@ -2,6 +2,7 @@ let a = 10;
 let obj = {
   a // err ? obj.a's value is undefined ? no ... equals 10
 }
+console.log(obj); // { a: 10 }
 
 let newObj = obj;
 newObj.a += 10; // reassignment; now 20

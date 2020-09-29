@@ -1,12 +1,12 @@
 // problem 1
 function makeCar(acceleration) {
-  return ({
+  return {
     speed: 0,
     rate: acceleration,
-    accelerate() {
+    accelerate () {
       this.speed += this.rate;
     },
-  });
+  };
 };
 
 let sedan = makeCar(8);

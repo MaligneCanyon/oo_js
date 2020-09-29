@@ -25,13 +25,14 @@ let people = {
   fullName: function(person) {
     console.log(person.firstName + ' ' + person.lastName);
   },
+
   // since 'people' is our context, we don't need to pass it as an arg to 'rollCall'
   // rollCall: function() {
   //   people.collection.forEach(people.fullName);
   // },
 
   // can use 'this' to access a fn's context w/i a parent obj
-  // rollCall method can be called w/ any var that references the parent obj
+  // rollCall method can be called w/ any var (any caller) that refs the parent obj
   rollCall: function() {
     this.collection.forEach(this.fullName);
     console.log();

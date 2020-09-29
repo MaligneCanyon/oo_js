@@ -1,17 +1,17 @@
 // problem 3
 function makeCar(acceleration, deceleration) {
-  return ({
+  return {
     speed: 0,
     accel: acceleration,
-    accelerate() {
+    accelerate () {
       this.speed += this.accel;
     },
     decel: deceleration,
-    brake() {
+    brake () {
       this.speed -= this.decel;
       if (this.speed < 0) this.speed = 0;
     },
-  });
+  };
 };
 
 let sedan = makeCar(8, 6);

@@ -1,26 +1,28 @@
-let id = -1;
+let createProduct = function(name, stock, price) {
+  let id = -1;
 
-function createProduct(name, stock, price) {
-  id++;
+  return function (name, stock, price) {
+    id++;
 
-  return {
-    id,
-    name,
-    stock,
-    price,
-    setPrice(newPrice = 0) {
-			if (newPrice < 0) alert('Price is negative');
-			else this.price = newPrice;
-		},
-		describe() {
-			console.log();
-			console.log(`Name: ${this.name}`);
-			console.log(`ID: ${this.id}`);
-			console.log(`Price: $${this.price.toFixed(2)}`);
-			console.log(`Stock: ${this.stock}`);
-		},
+    return {
+      id,
+      name,
+      stock,
+      price,
+      setPrice (newPrice = 0) {
+        if (newPrice < 0) alert('Price is negative');
+        else this.price = newPrice;
+      },
+      describe () {
+        console.log();
+        console.log(`Name: ${this.name}`);
+        console.log(`ID: ${this.id}`);
+        console.log(`Price: $${this.price.toFixed(2)}`);
+        console.log(`Stock: ${this.stock}`);
+      },
+    };
   };
-};
+}();
 
 let scissors = createProduct('Scissors', 8, 10);
 console.log(scissors);
@@ -29,6 +31,10 @@ console.log(drill);
 
 drill.setPrice(42.50);
 drill.describe();
+// => Name: Cordless Drill
+// => ID: 1
+// => Price: $42.50
+// => Stock: 15
 
 scissors.describe();
 // => Name: Scissors

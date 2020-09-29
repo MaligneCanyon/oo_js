@@ -3,15 +3,15 @@ function makeCountry(name, continent, visited) {
   // if (visited === undefined) {
   //   visited = false;
   // }
-  // ... but this has no error chking, nor does
+  // ... but that has no error chking, nor does
   // function makeCountry(name, continent, visited = false) {
 
   return {
     name, // concise syntax, replaces 'name: name,'
     continent,
     // visited,
-    visited: visited === true ? true : false, // set to false if arg !== true
-    getDescription() {
+    visited: visited === true ? true : false, // error chking; set to false if arg !== true
+    getDescription () {
       return this.name + ' is located in ' + this.continent + '.';
     },
   };

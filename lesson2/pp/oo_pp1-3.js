@@ -23,20 +23,6 @@ let drill = {
 	price: 45,
 };
 
-// let id = -1;
-// function createProduct(name, stock, price) {
-//   id++;
-
-//   return {
-//     id,
-//     name,
-//     stock,
-//     price,
-//   };
-// };
-// console.log(createProduct('Scissors', 8, 10));
-// console.log(createProduct('Cordless Drill', 15, 45));
-
 // pp2
 function setPrice(product, newPrice = 0) {
 	if (newPrice < 0) alert('Price is negative');
