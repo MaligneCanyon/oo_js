@@ -38,8 +38,7 @@ let person = {
 
 let whoIsSpiderman = person.fullName.bind(person);
 whoIsSpiderman();
-// although whoIsSpiderman is invoked as a fn, it points to the new fn rtn'd
-// by bind (which is bound to the person obj);
+// although whoIsSpiderman is invoked as a fn, it points to the new fn rtn'd by bind (which is bound to the person obj);
 // so the code logs 'Peter Parker is the ASS' (or something like that)
 
 4.
@@ -67,3 +66,4 @@ console.log(computer.total()); // 35000
 // so this.price is undefined;
 // so specialDiscount rtns 0;
 // so total rtns 35000
+

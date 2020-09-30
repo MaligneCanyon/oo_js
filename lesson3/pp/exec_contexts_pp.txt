@@ -8,6 +8,7 @@ console.log(context); // => Window {...}
 
 // in the browser, Window is the value of the global obj
 
+
 2.
 "use strict";
 function foo() {
@@ -18,6 +19,7 @@ let context = foo();
 console.log(context); // => undefined
 
 // in strict mode, 'this' in the global scope is undefined
+
 
 3.
 let obj = {
@@ -31,21 +33,26 @@ console.log(context); // {foo: f}; logs the value of obj (apparently 'f' reps a 
 
 // implicit method exec context is the calling obj
 
+
 4.
 var message = 'Hello from the global scope!';
 function deliverMessage() {
   console.log(this.message);
 }
 deliverMessage(); // => 'Hello from the global scope!'
-// implicit exec context of a fn is the global obj
+
+// 'message' is declared in the global scope
+// implicit exec context of a fn is the global obj, so this.message refs the 'message' var
 
 let bar = {
   message: 'Hello from the function scope!',
 };
 bar.deliverMessage = deliverMessage;
 bar.deliverMessage(); // => 'Hello from the function scope!'
-// implicit exec context of a method is calling obj; bar.deliverMessage is a method of the bar obj; 'this' is equal to bar
-// from the Solution ... this.message resolves to bar's property message.
+
+// implicit exec context of a method is calling obj; bar.deliverMessage is a method of the bar obj; bar.deliverMessage is invoked with bar as the exec context, i.e. 'this' is equal to bar
+// from the Solution ... "this.message resolves to bar's property message"
+
 
 5.a)
 var a = 10;
@@ -61,8 +68,9 @@ function add() {
 
 c.add = add;
 
-console.log(add()); // => 20
-console.log(c.add()); // => 0
+console.log(add()); // => 20 // invoked as a fn; uses the globally-scoped 'a' (exec context is the global obj)
+console.log(c.add()); // => 0 // invoked as a method; uses c.a (exec context is the calling obj)
+
 
 5.b)
 let a = 10;
@@ -78,12 +86,14 @@ function add() {
 
 c.add = add;
 
-console.log(add()); // => NaN
+console.log(add()); // => NaN // 'a' is not declared on the global obj when using 'let', so this.a resolves to undefined
 console.log(c.add()); // => 0
-// from the Solution ...  global var variables create properties on the global object, but let and const create variables that don't belong to any object
+// from the Solution ... "global var variables create properties on the global object, but let and const create variables that don't belong to any object"
+
 
 6.
 the 'call' and 'apply' methods allow us to explicity set a fn's exec context
+
 
 7.
 let foo = {
@@ -100,6 +110,7 @@ let bar = {
 };
 
 bar.add.call(foo); // 3
+
 
 8.
 let fruitsObj = {
@@ -130,7 +141,9 @@ Grapefruit
 Pineapple
 Orange
 
+
 9.
 let args = [].slice.call(arguments);
 // calls the Array slice method on an empty arr w/ the arguments obj as the exec context;
 // slice is called w/o args, so this creates a shallow copy of the list of args ???
+

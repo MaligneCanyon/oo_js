@@ -1,49 +1,64 @@
 let ItemManager = function () {
   let inventory = [];
-  let itemCreator = function (name, category, quantity) {
+
+  let itemCreator = function (itemName, category, quantity) {
     let isValidItem = function () {
-      let isValidName = (name) => name.replace(/ /g, '').length > 4;
-      let isValidCategory = (category) => category.replace(/ /, '') === category && category.length > 4;
+      let isValidName = (itemName) => itemName.replace(/ /g, '').length > 4;
+      let isValidCategory =
+        (category) => category.replace(/ /, '') === category && category.length > 4;
       let isValidQuantity = (quantity) => quantity !== undefined;
-      return isValidName(name) && isValidCategory(category) && isValidQuantity(quantity);
+      return isValidName(itemName) && isValidCategory(category) && isValidQuantity(quantity);
     };
 
     if (isValidItem()) {
-      let sku = (name.split(' ').join('').slice(0, 3) + category.slice(0, 2)).toUpperCase();
-      return { sku, name, category, quantity };
+      // although this works ...
+      // let skuCode = (itemName.split(' ').join('').slice(0, 3) + category.slice(0, 2)).toUpperCase();
+      // return { skuCode, itemName, category, quantity };
+
+      // ... should gen an item using 'new'
+      this.skuCode = (itemName.split(' ').join('').slice(0, 3) + category.slice(0, 2)).toUpperCase();
+      this.itemName = itemName;
+      this.category = category;
+      this.quantity = quantity;
     } else return { notValid: true };
   };
-  // console.log(itemCreator('ab  cd', 'fghij', 0)); // { notValid: true } // name too short
-  // console.log(itemCreator('ab cde', 'fghij', 0)); // { sku: 'ABCFG', name: 'ab cde', category: 'fghij', quantity: 0 }
+  // console.log(itemCreator('ab  cd', 'fghij', 0)); // { notValid: true } // itemName too short
+  // console.log(itemCreator('ab cde', 'fghij', 0));
+    // { skuCode: 'ABCFG', itemName: 'ab cde', category: 'fghij', quantity: 0 }
   // console.log(itemCreator('ab cde', 'fgh j', 0)); // { notValid: true } // space in category
   // console.log(itemCreator('ab cde', 'fghij'));    // { notValid: true } // no quantity
-  // console.log(itemCreator.sku); // should log undefined
+  // console.log(itemCreator.skuCode); // should log undefined
 
   return {
     items: inventory,
 
-    create (name, category, quantity) {
-      let item = itemCreator(name, category, quantity);
+    create (itemName, category, quantity) {
+      // let item = itemCreator(itemName, category, quantity); // although this works ...
+      let item = new itemCreator(itemName, category, quantity); // ... should gen an item using 'new'
       if (item.hasOwnProperty('notValid')) return false;
       inventory.push(item);
-      return true;
+      return true; // for testing purposes
     },
 
-    delete (sku) {
+    delete (skuCode) {
       for (let ndx = 0; ndx < inventory.length; ndx++) {
-        if (inventory[ndx].sku === sku) return inventory.splice(ndx, 1)[0];
+        if (inventory[ndx].skuCode === skuCode) return inventory.splice(ndx, 1)[0];
       }
 
-      return null;
+      // return undefined;
     },
 
-    update (sku, obj) {
-      let item = this.delete(sku);
+    update (skuCode, obj) {
+      let item = this.delete(skuCode);
       if (item) {
         for (key in obj) item[key] = obj[key]; // assumes all keys are valid
         inventory.push(item);
       }
     },
+    // the Solution uses Object.assign to update the item obj
+    // update(skuCode, itemInformation) {
+    //   Object.assign(this.getItem(skuCode), itemInformation);
+    // },
 
     inStock () {
       return inventory.filter(item => item.quantity > 0);
@@ -63,25 +78,24 @@ let ReportManager = function () {
     reportInStock () {
       console.log(
         this.itemMgr.inStock.call(this).reduce((accum, item, ndx, arr) => {
-          return accum + item.name + ((ndx === arr.length - 1) ? '' : ', ');
+          return accum + item.itemName + ((ndx === arr.length - 1) ? '' : ', ');
         }, '')
       );
     },
 
-    createReporter (sku) {
-      let self = this;
+    createReporter (skuCode) {
+      let item = {};
+      let arr = this.itemMgr.items;
+      for (let ndx = 0; ndx < arr.length; ndx++) {
+        if (arr[ndx].skuCode === skuCode) {
+          item = arr[ndx];
+          break;
+        }
+      }
+
       return {
         itemInfo () {
-          let item = {};
-          let arr = self.itemMgr.items;
-          for (let ndx = 0; ndx < arr.length; ndx++) {
-            if (arr[ndx].sku === sku) {
-              item = arr[ndx];
-              break;
-            }
-          }
-
-          for (key in item) console.log(`${key}:${item[key]}`);
+          for (key in item) console.log(`${key}: ${item[key]}`);
         },
       };
     },
@@ -90,7 +104,7 @@ let ReportManager = function () {
 
 
 console.log(ItemManager.create('basket ball', 'sports', 0));         // T // valid item
-console.log(ItemManager.create('asd', 'sports', 0));                 // F // name too short
+console.log(ItemManager.create('asd', 'sports', 0));                 // F // itemName too short
 console.log(ItemManager.create('soccer ball', 'sports', 5));         // T // valid item
 console.log(ItemManager.create('football', 'sports'));               // F // no quantity
 console.log(ItemManager.create('football', 'sports', 3));            // T // valid item

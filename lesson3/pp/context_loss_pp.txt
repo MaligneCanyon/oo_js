@@ -16,7 +16,7 @@ function logReturnVal(func) {
 logReturnVal(turk.getDescription);
 
 // turk.getDescription is called as a fn, outside its containing obj;
-// so 'this' refs the global obj, not 'turk';
+// so 'this' refs the global obj (where none of the spec'd properties are def'd), not 'turk';
 // so the output will be
 // => undefined undefined is a undefined.
 
@@ -30,13 +30,13 @@ let turk = {
   }
 };
 
-function logReturnVal(func, context) {
+function logReturnVal(func, context) { ***
   let returnVal = func.call(context); // ***
   // let returnVal = func.bind(context)(); // *** this works too ...
   console.log(returnVal);
 }
 
-logReturnVal(turk.getDescription, turk);
+logReturnVal(turk.getDescription, turk); // ***
 
 3.
 let turk = {
@@ -163,3 +163,4 @@ let foo = {
 
 foo.incrementA();
 console.log(foo.a); // => 3
+

@@ -59,3 +59,4 @@ function foo() {
 let bar = foo.bind(obj);
 
 bar.call(otherObj); // 'Amazebulous!'; bar is still bound to obj
+
