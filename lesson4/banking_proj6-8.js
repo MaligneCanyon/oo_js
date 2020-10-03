@@ -1,7 +1,8 @@
 function makeBank() { // proj6
-  let bank = {
+  return {
     accounts: [],
     number: 101, // proj7
+
     openAccount () { // proj7
       // let number = this.accounts.length + 101; // from the Solution ...
       let acct = makeAccount(this.number);
@@ -16,13 +17,11 @@ function makeBank() { // proj6
       return amount;
     },
   };
-
-  return bank;
 }
 
 // function makeAccount() { // proj5
 function makeAccount(number) { // proj7
-  let account = {
+  return {
     number, // proj7
     balance: 0, // proj1
     transactions: [], // proj4
@@ -40,8 +39,6 @@ function makeAccount(number) { // proj7
       return amount;
     },
   };
-
-  return account; // proj5
 }
 
 // proj7 ...

@@ -1,14 +1,13 @@
 // function makeListTransformer(func) {
-//   return function (value) {
-//     if (Array.isArray(value)) {
-//       return value.map(func);
+//   return function (arg) {
+//     if (Array.isArray(arg)) {
+//       return arg.map(func);
 //     } else {
-//       return func(value);
+//       return func(arg);
 //     }
 //   };
 // }
 // console.log(timesTwo(3)); // 6
-
 
 function makeListTransformer(func) {
   return function (arr) {

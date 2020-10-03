@@ -11,8 +11,10 @@ function run() {
 
 run();
 
-// the value of 'c' cannot be GC'd until after run() execs
-// the value of 'b' cannot be GC'd until after add() execs
+// the value of 'c' cannot be GC'd until after run() rtns; 'c' is a local
+// var w/i fn run()
+// the value of 'b' cannot be GC'd until after add() rtns; 'b' is a local
+// var w/i fn add()
 // the original value of 'a' can be GC'd after 'a' is reassigned in add()
 // the final value of 'a' cannot be GC'd until the prog finishes; its value
 // is still accessible even after run() execs
@@ -27,5 +29,5 @@ function makeHello(name) {
 
 let helloSteve = makeHello("Steve");
 
-// 'Steve' cannot be GC'd until the prog finishes, as the helloSteve fn
-// could be called (and the closure created by makeHello ref'd) at any time
+// 'Steve' cannot be GC'd until the prog finishes; helloSteve() could be
+// invoked (and the closure created by makeHello() ref'd) at any time

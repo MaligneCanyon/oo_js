@@ -6,17 +6,19 @@ let myNum = 1;
 
 function foo() {
   let myStr = 'A string';
-  // what is eligible for GC here? // line5: nothing (foo has not yet been exec'd)
+  // what is eligible for GC here? // line5
+  // nothing can be GC'd; foo has not yet been exec'd; both myNum and myStr,
+  // and the values they ref, can still be ref'd
 }
 
 foo();
 
-// what is eligible for GC here? // line10: 'A string'
-
-// more code
-
+// what is eligible for GC here? // line10
+// 'A string' can be GC'd; myStr is a local var which can no longer be ref'd
+// after foo() rtns
 // '1' isn't avail for GC at any pt during prog exec (ref'd by global var 'myNum')
 
+// more code
 
 3.
 let outerFoo;
@@ -28,12 +30,11 @@ function bar() {
 
 bar();
 
-// can outerFoo's 0 be garbage collected here? // line10: no
+// can outerFoo's 0 be garbage collected here? // line10
+// '0' isn't available for GC; it is the current (and accessible) value of the
+// globally-scoped outerFoo var
 
 // more code
-
-// '0' isn't available for GC; it is the current (and accessible) value of the globally-scoped outerFoo var
-
 
 4.
 function makeEvenCounter() {
@@ -45,17 +46,19 @@ function makeEvenCounter() {
 
 let evenCounter = makeEvenCounter();
 
-// is 0 eligible for GC here? // line10: no
+// is 0 eligible for GC here? // line10
 
 // more code
 
-// '0' isn't available for GC; the closure created by makeEvenCounter still requires access to that value; 
-// evenCounter hasn't been invoked yet, but could be at any subsequent pt in the code
-
+// '0' isn't available for GC; the closure created by makeEvenCounter still
+// requires access to that value through 'index' until evenCounter has been
+// invoked
 
 5.
 let bash = "Some val";
 
-// "Some val" will be eligible for garbage collection when the script finishes executing
-// Note: if there was subsequent code in the script, since the str is ref'd by the globally-scoped var 'bash', 
-// the str must endure until the ref by bash (or any other ref to it) ceases (ex. bash is reassigened)
+// "Some val" will be eligible for garbage collection when the script finishes
+// executing
+// Note: if there was subsequent code in the script, since the str is ref'd by
+// the globally-scoped var 'bash', the str must endure until the ref by bash
+// (or any other ref to it) ceases (ex. bash is reassigned)

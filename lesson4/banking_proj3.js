@@ -6,22 +6,21 @@ let account = {
     return amount;
   },
 
-  withdraw (amount) {
+  withdraw (amount) { // proj3
     if (amount > this.balance) amount = this.balance;
     this.balance -= amount;
     return amount;
   },
 };
 
-console.log(account.deposit(81));
-// = 81
+account.balance = 100;
+console.log(account.balance);
+// = 100
+console.log(account.withdraw(19));
+// = 19
 console.log(account.balance);
 // = 81
-console.log(account.withdraw(10));
-// = 10
-console.log(account.balance);
-// = 71
 console.log(account.withdraw(91));
-// = 71
+// = 81
 console.log(account.balance);
 // = 0

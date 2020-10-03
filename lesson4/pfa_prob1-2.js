@@ -1,6 +1,5 @@
 // prob1 ...
 function greet(greeting, name) {
-  // console.log(greeting[0].toUpperCase() + greeting.slice(1) + ', ' + name + '!');
   console.log(`${greeting[0].toUpperCase() + greeting.slice(1)}, ${name}!`);
 }
 
@@ -16,9 +15,17 @@ function partial(primary, arg1) {
     return primary(arg1, arg2);
   };
 }
-
 let sayHello = partial(greet, 'hello');
 let sayHi = partial(greet, 'hi');
+
+// this also works, but is less generalized ...
+// function gen(salutation) {
+//   return function(name) {
+//     return greet(salutation, name);
+//   };
+// }
+// let sayHello = gen('hello');
+// let sayHi = gen('hi');
 
 sayHello('Brandon');
 // Hello, Brandon!

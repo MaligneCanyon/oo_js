@@ -2,10 +2,10 @@ function multiply(a, b) {
   return a * b;
 }
 
-function makePartialFunc(func, argB) {
-  return function (argA) {
-    return func(argA, argB);
-  }
+function makePartialFunc(func, n) { // Note the pattern: //    n
+  return function(m) {                                   // m
+    return func(m, n);                                   // m, n
+  };
 }
 
 let multiplyBy5 = makePartialFunc(multiply, 5);

@@ -1,7 +1,7 @@
 function makeBank() { // proj6
   let accounts = []; // proj10
 
-  let bank = {
+  return {
     // accounts: [],
     // number: 101, // proj7
 
@@ -21,16 +21,14 @@ function makeBank() { // proj6
       return amount;
     },
   };
-
-  return bank;
 }
 
 // function makeAccount() { // proj5
-function makeAccount(number) { // proj7 // can move makeAccount inside 'function makeBank()'
+function makeAccount(number) { // proj7 // could move makeAccount inside 'function makeBank()'
   let balance = 0; // proj9
   let transactions = []; // proj9
 
-  let account = {
+  return {
     // number, // proj7
     // balance: 0, // proj1
     // transactions: [], // proj4
@@ -65,8 +63,6 @@ function makeAccount(number) { // proj7 // can move makeAccount inside 'function
       return transactions;
     },
   };
-
-  return account; // proj5
 }
 
 
@@ -89,3 +85,4 @@ console.log(account.transactions());
 console.log(bank.accounts);
 // = undefined
 console.log(bank.number); // no longer available
+// = undefined

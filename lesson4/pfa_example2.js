@@ -11,6 +11,8 @@ function repeat(count, string) {
   return result;
 }
 
+// pass the primary fn to the gen, if the gen is going to be used w/ dif primary fns;
+// otherwise, directly ref the name of the primary fn below (instead of using 'primary')
 function partial(primary, arg1) { // *** impt ***
   return function(arg2) {
     return primary(arg1, arg2);

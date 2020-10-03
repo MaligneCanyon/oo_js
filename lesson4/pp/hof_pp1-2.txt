@@ -9,3 +9,4 @@ function checkEven(number) {
 
 numbers.filter(checkEven); // [2, 4]
 // filter is a HOF (it takes fn checkEven as an arg)
+

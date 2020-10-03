@@ -10,7 +10,7 @@ function subtract(incr) {
 }
 
 add(1);
-// 1)
+// 1
 add(42);
 // 43
 subtract(39);
