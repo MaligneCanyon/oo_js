@@ -3,13 +3,10 @@ function createInvoice(services = {}) {
     phone: services.phone || 3000,
     internet: services.internet || 5500,
     payments: [],
-    total () { return this.phone + this.internet; },
-    addPayment (payment) {
-      this.payments.push(payment);
-    },
+    total () { return this.phone + this.internet; }, // should be renamed 'totalInvoices'
+    addPayment (payment) { this.payments.push(payment); },
     addPayments (paymentsArr) {
-      let self = this;
-      paymentsArr.forEach(payment => self.addPayment(payment));
+      paymentsArr.forEach(payment => this.addPayment(payment)); // 'this' is scoped lexically in an arrow fn
     },
     totalPayments () {
       return this.payments.reduce((accum, payment) => accum + payment.total(), 0);
@@ -20,12 +17,13 @@ function createInvoice(services = {}) {
   };
 }
 
+
 function createPayment(services = {}) {
   return {
     phone: services.phone || 0,
     internet: services.internet || 0,
     amount: services.amount || 0,
-    total () { return this.amount || (this.phone + this.internet); },
+    total () { return this.phone + this.internet + this.amount; },
   };
 }
 
@@ -45,7 +43,7 @@ let payment2 = createPayment({
 });
 
 let payment3 = createPayment({
-  phone: 1000,
+  phone: 1001,
 });
 
 invoice.addPayment(payment1);

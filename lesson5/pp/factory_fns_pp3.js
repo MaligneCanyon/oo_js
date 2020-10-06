@@ -1,7 +1,7 @@
 // function createInvoice(services) {
 //   return {
-//     phone: services && services.phone ? services.phone : 3000,
-//     internet: services && services.internet ? services.internet : 5500,
+//     phone: (services && services.phone) || 3000,
+//     internet: (services && services.internet) || 5500,
 //     total () { return this.phone + this.internet; },
 //   };
 // }

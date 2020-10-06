@@ -3,7 +3,7 @@ function createPayment(services = {}) {
     phone: services.phone || 0,
     internet: services.internet || 0,
     amount: services.amount || 0,
-    total () { return this.amount || (this.phone + this.internet); },
+    total () { return this.phone + this.internet + this.amount; },
   };
 }
 

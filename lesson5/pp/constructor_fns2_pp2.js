@@ -1,15 +1,8 @@
 function User(first, last) {
-  let self = this === global ? Object.create(User.prototype) : this;
-  // self.name = (function () { return first + ' ' + last; })(); // convoluted
-  self.name = first + ' ' + last;
-  return self;
+  // if (this === global) return new User(first, last); // works in Node, but not in a browser
+  if (!(this instanceof User)) return new User(first, last); // from the Solution
+  else this.name = first + ' ' + last;
 }
-
-// from the Solution ...
-// function User(first, last){
-//   if (!(this instanceof User)) return new User(first, last);
-//   this.name = first + ' ' + last;
-// }
 
 let name = 'Jane Doe';
 let user1 = new User('John', 'Doe');

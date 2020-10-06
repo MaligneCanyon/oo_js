@@ -1,5 +1,6 @@
 function getDefiningObject(obj, propKey) {
   while (true) {
+    // if (obj === null || obj.hasOwnProperty(propKey)) return obj;
     if (!obj) return null;
     if (obj.hasOwnProperty(propKey)) return obj;
     obj = Object.getPrototypeOf(obj);

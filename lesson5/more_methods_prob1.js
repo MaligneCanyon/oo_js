@@ -3,21 +3,21 @@ function newPerson(name) { // PCP
     this.name = name;
   };
 
-  let obj = new Person(name);
-  Object.defineProperties(obj, {
-    log: {
-      value: function () { console.log(this.name); },
-      writeable: false,
-    }
-  });
-  return obj;
-
-  // return Object.defineProperties(new Person(name), {
+  // let obj = new Person(name);
+  // Object.defineProperties(obj, {
   //   log: {
-  //     value: function () { console.log(this.name); },
+  //     value: function () { console.log(name); },
   //     writeable: false,
   //   }
   // });
+  // return obj;
+
+  return Object.defineProperties(new Person(name), {
+    log: {
+      value () { console.log(this.name); },
+      writeable: false,
+    }
+  });
 }
 
 let me = newPerson('Shane Riley');

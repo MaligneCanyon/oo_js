@@ -17,3 +17,4 @@ Object.prototype.begetObject = function () {
 
 let bar = foo.begetObject();
 console.log(foo.isPrototypeOf(bar)); //=> true
+console.log(bar.a); //=> 1

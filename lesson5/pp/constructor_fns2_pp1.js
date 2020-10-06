@@ -14,9 +14,10 @@ Triangle.prototype.constructor = Triangle; // must reset the constructor after s
 Triangle.prototype.getPerimeter = function() {
   return this.a + this.b + this.c;
 };
+// equiv to 'shape.getPerimeter = function () { console.log(this.a + this.b + this.c); }'
 
 let t = new Triangle(3, 4, 5);
-console.log(t.constructor);                 // Triangle(a, b, c)
+console.log(t.constructor.toString());      // Triangle(a, b, c)
 console.log(t.constructor === Triangle);    // true
 console.log(shape.isPrototypeOf(t));        // true
 console.log(t.getPerimeter());              // 12

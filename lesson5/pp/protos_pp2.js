@@ -21,7 +21,7 @@
 function shallowCopy(obj) {
   let proto = Object.getPrototypeOf(obj);
   let newObj = Object.create(proto);
-  let props = Object.getOwnPropertyNames(obj); // enumerable and non-enumerable properties
+  let props = Object.getOwnPropertyNames(obj); // enumerable and non-enumerable native properties
   props.forEach(prop => newObj[prop] = obj[prop]);
   return newObj;
 }
