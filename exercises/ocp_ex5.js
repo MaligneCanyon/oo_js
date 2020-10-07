@@ -23,10 +23,11 @@ let Account = function () {
     let displayName = '';
 
     while (displayNameLength --> 0)
-      displayName += CHARS[Math.floor(Math.random() * CHARS.length)]; // 0<=int<=35
+      displayName += CHARS[Math.floor(Math.random() * CHARS.length)]; // CHARS[0..35]
     return displayName;
   }
 
+  // can use 'this' in a private fn if the fn is invoked w/ fnName.call(this, ...args) format
   function validPassword(password) {
     return password === this.password;
   }
@@ -37,7 +38,7 @@ let Account = function () {
       this.password = password;
       this.fName = fName;
       this.lName = lName;
-      this.reanonymize(password); // sets this.displayName
+      this.reanonymize(password); // can invoke methods w/i init(); sets this.displayName
       return this;
     },
 

@@ -1,16 +1,22 @@
 // using 'apply'
-// function myBind(func, obj) {
-//   return function (...args) {
-//     return func.apply(obj, args);
-//   };
-// }
-
-// using 'call'
 function myBind(func, obj) {
-  return function (...args) { // rest syntax
-    return func.call(obj, ...args); // spread syntax
+  return function (...args) {
+    return func.apply(obj, args);
   };
 }
+
+// using 'call'
+// function myBind(func, obj) {
+//   return function (...args) { // rest syntax
+//     return func.call(obj, ...args); // spread syntax
+//   };
+// }using 'apply'
+function myBind(func, obj) {
+  return function (...args) {
+    return func.apply(obj, args);
+  };
+}
+
 
 const franchise = {
   name: 'How to Train Your Dragon',

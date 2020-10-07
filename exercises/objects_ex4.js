@@ -12,35 +12,30 @@ function createStudent(name, year) {
   return {
     name,
     year,
-    courses: [],
-    info() {
-      console.log(`${name} is a ${year} year student`);
+    courses: [], // could be private data
+    getCourse(courseCode) { // could be a private fn
+      let result = this.courses.filter(course => course.code === courseCode);
+      return result.length === 1 ? result[0] : null;
     },
-    addCourse(course) {
-      this.courses.push(course);
-    },
-    listCourses() {
-      console.log(this.courses);
-    },
+    info () { console.log(`${name} is a ${year} year student`)},
+    addCourse (course) { this.courses.push(course); },
+    listCourses () { console.log(this.courses); },
     addNote(code, text) {
-      let course = this.findCourse(code);
-      if (Object.keys(course).length) { // the course exists
+      let course = this.getCourse(code);
+      if (course) { // the course exists
         if (Object.keys(course).includes('note')) course.note += '; ' + text;
         else course.note = `${course.name}: ${text}`;
       } else console.log(`Course code ${code} not found`);
     },
-    findCourse(courseCode) {
-      let result = this.courses.filter(course => course.code === courseCode);
-      return result.length === 1 ? result[0] : {};
-    },
     viewNotes() {
-      let notes = this.courses.filter(course => course.note).map(course => course.note);
-      // notes.forEach(console.log);
-      notes.forEach(note => console.log(note));
+      // this.courses.filter(course => course.note).forEach(course => console.log(course.note));
+      this.courses.forEach(course => {
+        if (course.note) console.log(course.note);
+      });
     },
     updateNote(code, text) {
-      let course = this.findCourse(code);
-      if (Object.keys(course).length) { // the course exists
+      let course = this.getCourse(code);
+      if (course) { // the course exists
         course.note = `${course.name}: ${text}`;
       } else console.log(`Course code ${code} not found`);
     },
@@ -66,11 +61,11 @@ foo.addNote(101, 'Remember to study for algebra');
 foo.addNote(102, 'Difficult subject');
 foo.viewNotes();
 // = Math: Fun Course; Remember to study for algebra
-// = Advanced Math: Difficult Subject
+// = Advanced Math: Difficult subject
 
 foo.updateNote(101, 'Fun course');
 foo.viewNotes();
 // = Math: Fun Course
-// = Advanced Math: Difficult Subject
+// = Advanced Math: Difficult subject
 
 foo.updateNote(69, 'Another fun course');

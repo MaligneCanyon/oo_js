@@ -1,10 +1,7 @@
-// R<ead the following code carefully. Will the JavaScript garbage collection mechanism garbage
-// collect the variable count after the function counter is run on line 10?
-
 function makeCounter() {
   let count = 1;
 
-  return () => { // arrow fn, but so what ?
+  return () => {
     console.log(count++)
   };
 }
@@ -12,7 +9,9 @@ function makeCounter() {
 const counter = makeCounter();
 counter(); //=> 1
 
-// no, 'count' cannot be GC'd;
+// after counter() runs, the value of 'count' is 2;
+// the current value of 'count' cannot be GC'd;
 // for instance, we could call counter() again:
-// counter() needs to retain access to the count var that makeCounter closes over
+// counter() needs to retain access to the count var that makeCounter closes over;
+// however, the initial value (i.e. '1') assigned to count can be GC'd
 counter(); //=> 2

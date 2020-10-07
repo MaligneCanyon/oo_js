@@ -44,25 +44,26 @@ GraduateStudent.prototype.constructor = GraduateStudent;
 GraduateStudent.prototype.research = () => console.log('Researching');
 
 
-// new code begins here
+// new code begins here ...
 function delegate(methodOwner, methodName, context, ...args) {
   return function () { methodOwner[methodName].call(context, ...args); };
 }
 
-function extend(individual, mixin) {
-  Object.keys(mixin).forEach(methodName => { // assign the mixin methods to each individual obj
+function extend(context, mixin) {
+  Object.keys(mixin).forEach(methodName => { // assign each mixin method to the context obj
     // pass the method name, not the method itself, to 'delegate'
-    individual[methodName] = delegate(mixin, methodName, individual);
+    context[methodName] = delegate(mixin, methodName, context);
   });
 
-  return individual;
+  return context;
 }
 
 let professional = { // don't use arrow fns with 'this' (no 'this' context)
   invoice () { console.log(`${this.fullName()} is Billing customer`); },
   payTax  () { console.log(`${this.fullName()} Paying taxes`); },
 }
-// new code ends here
+// ... new code ends here
+
 
 const doctor = extend(new Doctor('foo', 'bar', 21, 'gender', 'Pediatrics'), professional);
 console.log(doctor instanceof Person);     // logs true

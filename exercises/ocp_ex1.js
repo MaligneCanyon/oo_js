@@ -1,17 +1,16 @@
-Object.prototype.ancestors = function () {
-  let result = [];
-  let self = this;
+Object.prototype.ancestors = function() {
+  let arr = [];
+  let obj = this;
 
   while (true) {
-    self = Object.getPrototypeOf(self);
-    if (self === Object.prototype) {
-      result.push('Object.prototype');
-      break;
-    } else result.push(self.name);
+    obj = Object.getPrototypeOf(obj);
+    if (obj === Object.prototype) {
+      arr.push('Object.prototype');
+      return arr;
+    }
+    arr.push(obj.name);
   }
-
-  return result;
-};
+}
 
 // name property added to make objects easier to identify
 const foo = {name: 'foo'};

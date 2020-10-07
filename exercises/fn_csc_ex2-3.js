@@ -1,6 +1,7 @@
 // the inner fn passed to map has lost exec context; repair by saving 'this'
 // to a var and using the var w/i the inner fn to ref the correct context
 
+// method1:
 // const franchise = {
 //   name: 'How to Train Your Dragon',
 //   allMovies() {
@@ -12,7 +13,27 @@
 //   },
 // };
 
-// alt version1:
+// method3:
+const franchise = {
+  name: 'How to Train Your Dragon',
+  allMovies() {
+    return [1, 2, 3].map(function(number) {
+      return `${this.name} ${number}`;
+    }.bind(franchise));
+  },
+};
+
+// method4:
+// const franchise = {
+//   name: 'How to Train Your Dragon',
+//   allMovies() {
+//     return [1, 2, 3].map(function(number) {
+//       return `${this.name} ${number}`;
+//     }, this);
+//   },
+// };
+
+// method5:
 // const franchise = {
 //   name: 'How to Train Your Dragon',
 //   allMovies() {
@@ -21,26 +42,6 @@
 //     });
 //   },
 // };
-
-// alt version2:
-// const franchise = {
-//   name: 'How to Train Your Dragon',
-//   allMovies() {
-//     return [1, 2, 3].map(function(number) {
-//       return `${this.name} ${number}`;
-//     }.bind(franchise));
-//   },
-// };
-
-// alt version3:
-const franchise = {
-  name: 'How to Train Your Dragon',
-  allMovies() {
-    return [1, 2, 3].map(function(number) {
-      return `${this.name} ${number}`;
-    }, this);
-  },
-};
 
 console.log(franchise.allMovies()); //=>
 [

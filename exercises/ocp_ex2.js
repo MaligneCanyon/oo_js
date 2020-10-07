@@ -1,6 +1,7 @@
-function delegate(methodOwner, methodName, ...args) {
-  return function () { methodOwner[methodName].call(methodOwner, ...args); };
-  // return () => methodOwner[methodName].apply(methodOwner, args); // alt form, from the Solution
+// function delegate(methodOwner, methodName, ...args) {
+function delegate(obj, method, ...args) {
+  // return function () { obj[method].call(obj, ...args); };
+  return function () { obj[method].apply(obj, args); };
 }
 
 const foo = {

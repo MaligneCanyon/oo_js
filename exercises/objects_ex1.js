@@ -16,20 +16,24 @@ function createGreeter(name) {
           break;
         case 'afternoon':
           // msg += `${afternoon} ${name}`;
-          msg += `${this.afternoon} ${this.name}`;
+          msg += `${this.afternoon} ${name}`;
           break;
         case 'evening':
           // msg += `${evening} ${name}`;
-          msg += `${this.evening} ${this.name}`;
+          msg += `${this.evening} ${name}`;
           break;
       }
 
       console.log(msg);
     },
+
+    // greet(timeOfDay) { // this also works
+    //   console.log(this[timeOfDay] + ' ' + name);
+    // },
   };
 }
 
 const helloVictor = createGreeter('Victor');
 helloVictor.greet('morning'); // => Good Morning Victor
 
-// use 'this' when ref'ing an obj or its properties w/i an obj's methods
+// use 'this' when ref'ing an obj or its properties w/i the obj's methods

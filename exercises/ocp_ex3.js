@@ -11,6 +11,10 @@ Person.prototype.sleep = () => console.log('Sleeping');
 // Person.prototype.fullName = () => `${this.firstName} ${this.lastName}`;
 Person.prototype.fullName = function () { return `${this.firstName} ${this.lastName}`; };
 
+// let Doctor = function(firstName, lastName, age, gender, specialization) {
+//   Person.call(this, firstName, lastName, age, gender);
+//   this.specialization = specialization;
+// }
 let Doctor = function(...args) {
   this.specialization = args.pop();
   Person.call(this, ...args);

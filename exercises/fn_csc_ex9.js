@@ -1,12 +1,22 @@
-function makeGreeter(greeting, name) {
+// function makeGreeter(greeting, name) { // this works
+//   return {
+//     message: `${greeting} ${name}!`,
+//     sayGreetings() {
+//       console.log(this.message);
+//     },
+//   };
+// };
+
+function makeGreeter(greeting, name) { // this works too
+  let message = `${greeting} ${name}!`;
   return {
-    message: `${greeting} ${name}!`,
     sayGreetings() {
-      console.log(this.message);
+      console.log(message);
     },
   };
 };
 
-// makeGreeter('Hello', 'Naveed').sayGreetings();
-let greeter = makeGreeter('Hello', 'Naveed');
-greeter.sayGreetings();
+
+// let greeter = makeGreeter('Hello', 'Naveed');
+// greeter.sayGreetings();
+makeGreeter('Hello', 'Naveed').sayGreetings();

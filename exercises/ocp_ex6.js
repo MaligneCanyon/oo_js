@@ -42,7 +42,8 @@ let ItemManager = function () {
 
     delete (skuCode) {
       for (let ndx = 0; ndx < inventory.length; ndx++) {
-        if (inventory[ndx].skuCode === skuCode) return inventory.splice(ndx, 1)[0];
+        if (inventory[ndx].skuCode === skuCode) // rtn the deleted item
+          return inventory.splice(ndx, 1)[0];
       }
 
       // return undefined;

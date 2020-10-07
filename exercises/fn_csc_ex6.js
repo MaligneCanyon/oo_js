@@ -1,13 +1,7 @@
-// In this exercise we'll update the implementation of myFilter by adding the functionality
-// of accepting an optional thisArg just like the original Array.prototype.filter.
-
-// Modify the original implementation such that the expected result is returned.
-// Don't use the thisArg argument of Array.prototype.forEach.
-
 function myFilter(array, func, thisArg) {
   const result = [];
 
-  // if (thisArg !== undefined) func = func.bind(thisArg); // *** this works too
+  // if (thisArg !== undefined) func = func.bind(thisArg); // this works too
   array.forEach(value => {
     // if (func(value)) {
     if (func.call(thisArg, value)) {
