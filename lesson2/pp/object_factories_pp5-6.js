@@ -3,12 +3,13 @@ function makeCountry(name, continent, visited) {
     name,
     continent,
     visited: visited === true ? true : false, // set to false if arg !== true
-    visitCountry() { // pp5
+    visitCountry () { // pp5
       this.visited = true;
-    }
-    getDescription() { // pp6
+    },
+    getDescription () {
+      // return this.name + ' is located in ' + this.continent + '.';
       return `${this.name} is located in ${this.continent}. ` +
-             `I have${this.visited ? "" : "n't"} visited ${this.name}.`;
+             `I have${this.visited ? "" : "n't"} visited ${this.name}.`; // pp6
     },
   };
 };

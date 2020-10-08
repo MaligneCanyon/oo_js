@@ -9,8 +9,10 @@ let myObject = {
 };
 
 myObject.myChildObject.myMethod();
-// 'this' points to the owning object myChildObject
+
+// 'this' points to the owning obj 'myChildObject'
 // the method rtns myChildObject.count, which is undefined
+
 
 2.
 let myObject = {
@@ -26,6 +28,7 @@ let myObject = {
 //myObject.myChildObject.myMethod();
 myObject.myChildObject.myMethod.call(myObject); // ***; provide an explicit exec context
 
+
 3.
 let person = {
   firstName: 'Peter',
@@ -38,8 +41,10 @@ let person = {
 
 let whoIsSpiderman = person.fullName.bind(person);
 whoIsSpiderman();
-// although whoIsSpiderman is invoked as a fn, it points to the new fn rtn'd by bind (which is bound to the person obj);
+
+// although whoIsSpiderman is invoked as a fn, it points to the new fn rtn'd by bind (which is bound to the 'person' obj);
 // so the code logs 'Peter Parker is the ASS' (or something like that)
+
 
 4.
 let computer = {
@@ -61,9 +66,9 @@ let computer = {
 };
 
 console.log(computer.total()); // 35000
-// the inner fn specialDiscount is called w/o an explicit context, so its exec
-// context is the global obj;
+
+// the inner fn specialDiscount() is called w/o an explicit context, so its exec context is the global obj;
 // so this.price is undefined;
-// so specialDiscount rtns 0;
-// so total rtns 35000
+// so specialDiscount() rtns 0;
+// so total() rtns 35000
 

@@ -5,9 +5,10 @@ let obj = {
 console.log(obj); // { a: 10 }
 
 let newObj = obj;
-newObj.a += 10; // reassignment; now 20
-console.log(newObj.a); // 20
+newObj.a += 10; // reassignment; now 20; mutates newObj and obj
 console.log(newObj); // { a: 20 }
+console.log(newObj.a); // 20
+console.log(obj.a); // 20
 console.log(a); // 10
 
 console.log(obj.a === a); // false; 'a' is an immutable primitive

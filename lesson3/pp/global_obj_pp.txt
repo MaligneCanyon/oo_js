@@ -1,11 +1,11 @@
 1.
 - w/o strict mode, the global (browser: window) obj serves as the implicit exec context
-- in strict mode, we don't have access to the global obj as the implicit context
+- in strict mode, we don't have access to the global obj as the implicit context; 'this' resolves to undefined
 
 
 2.
 a = 10;
-console.log(window.a === a); //=> true
+console.log(window.a === a); // => true
 
 // 'a' is undeclared, so it is def'd as a property of the global obj
 
@@ -20,19 +20,19 @@ console.log(window.a === a); // nothing is logged
 
 4.
 function func() { // defs a fn in the global scope
-  let b = 1; // decs a fn-scoped local var
+  let b = 1; // decs a fn-scoped local var 'b' and assigns the primitive value '1' to it
 } // implicitly rtns undefined
 
-func(); // calls the fn, does nothing w/ the rtn value
+func(); // invokes the fn, does nothing w/ the rtn value
 
-console.log(b); // ReferenceError
+console.log(b); // raises a ReferenceError
 
 // 'b' is not a property of the global obj and is therefore inaccessible outside the fn
 
 
 5.
 function func() { // defs a fn in the global scope
-  b = 1; // 'b' is init'd but undeclared; creates a property on the global obj w/ value 1
+  b = 1; // 'b' is init'd but undeclared; creates a property on the global obj and assigns the primitive value '1' to it
 } // implicitly rtns undefined
 
 func(); // calls the fn, does nothing w/ the rtn value
@@ -46,7 +46,7 @@ console.log(b); // => 1
 "use strict"
 
 function func() {
-  b = 1; // 'b' is init'd but undeclared; the global obj is inaccessible
+  b = 1; // 'b' is init'd but undeclared; the global obj is inaccessible in SM
 }
 
 func(); // raises a ReferenceError

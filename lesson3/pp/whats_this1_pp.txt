@@ -2,7 +2,9 @@
 function whatIsMyContext() {
   return this;
 }
+
 // fn never exec'd; exec context unknown
+
 
 2.
 function whatIsMyContext() {
@@ -10,7 +12,9 @@ function whatIsMyContext() {
 }
 
 whatIsMyContext();
-// 'this' pts to the global obj (window in the browser)
+
+// 'this' pts to the global obj
+
 
 3.
 function foo() {
@@ -26,8 +30,10 @@ function foo() {
 }
 
 foo();
+
 // nested fns inherit exec context;
-// 'this' pts to the global obj
+// 'this' pts to the global obj ('Window' in the browser)
+
 
 4.
 let obj = {
@@ -37,8 +43,10 @@ let obj = {
   },
 };
 
-obj.method();
+obj.method(); // 2
+
 // 'this' points to the owning object 'obj'
+
 
 5.
 "use strict";
@@ -48,9 +56,11 @@ function foo() {
 
 let a = 2;
 foo();
-// 'a' is def'd using let, so it doesn't belong to any object;
-// in strict mode the implicit exec context is undefined
+
+// in strict mode the implicit exec context is undefined;
 // raises a TypeError since property 'a' doesn't exist on undefined
+// Note: 'a' is def'd using let, so it doesn't belong to any object; so in sloppy mode, the code logs 'undefined'
+
 
 6.
 let a = 1;
@@ -64,9 +74,11 @@ let obj = {
 };
 
 obj.foo();
+
 // bar is invoked as a method;
 // 'this' is the owning object 'obj';
-// so the code logs the value of obj.a or 2
+// so the code logs the value of obj.a or '2'
+
 
 7.
 let foo = {
@@ -81,13 +93,14 @@ let foo = {
 };
 
 foo.bar(); // logs 'foo'
+
 // foo.bar is exec'd as a method; exec context is the foo object
 // foo.bar logs the value of foo.baz
-// foo.baz is exec'd as a method; exec context is the foo object
 // rtn value of foo.baz is the foo object
 
 let qux = foo.bar;
 qux(); // raises an err
+
 // qux executes foo.bar as a fn; exec context is the global object
 // baz is undefined in the global context, so raises a TypeError (baz is not a fn)
 

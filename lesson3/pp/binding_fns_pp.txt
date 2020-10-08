@@ -1,6 +1,7 @@
 1.
 bind
 
+
 2.
 let obj = {
   message: 'JavaScript',
@@ -11,6 +12,7 @@ function foo() {
 }
 
 foo.bind(obj); // rtns a new fn; does not invoke foo; logs nothing
+
 
 3.
 let obj = {
@@ -25,6 +27,7 @@ function foo() {
 let bar = foo.bind(obj);
 
 console.log(bar()); // => 5
+
 
 4.
 let positiveMentality = {
@@ -44,10 +47,12 @@ let bar = foo.bind(positiveMentality);
 negativeMentality.logMessage = bar;
 negativeMentality.logMessage(); // => 'JavaScript makes sense!'
 
+
 5.
 let obj = {
   a: 'Amazebulous!',
 };
+
 let otherObj = {
   a: "That's not a real word!",
 };
@@ -58,5 +63,5 @@ function foo() {
 
 let bar = foo.bind(obj);
 
-bar.call(otherObj); // 'Amazebulous!'; bar is still bound to obj
+bar.call(otherObj); // 'Amazebulous!'; bar is still bound to 'obj'
 

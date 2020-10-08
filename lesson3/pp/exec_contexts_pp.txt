@@ -29,9 +29,10 @@ let obj = {
 };
 
 let context = obj.foo();
-console.log(context); // {foo: f}; logs the value of obj (apparently 'f' reps a method)
+console.log(context); // => {foo: f}; logs the value of obj (apparently 'f' reps a method in Chrome Snippets)
 
 // implicit method exec context is the calling obj
+// 'foo' is invoked as a method here (but as a fn in pp1)
 
 
 4.
@@ -42,7 +43,7 @@ function deliverMessage() {
 deliverMessage(); // => 'Hello from the global scope!'
 
 // 'message' is declared in the global scope
-// implicit exec context of a fn is the global obj, so this.message refs the 'message' var
+// implicit exec context of a fn is the global obj, so this.message refs the globally-scoped 'message' var
 
 let bar = {
   message: 'Hello from the function scope!',
@@ -50,7 +51,8 @@ let bar = {
 bar.deliverMessage = deliverMessage;
 bar.deliverMessage(); // => 'Hello from the function scope!'
 
-// implicit exec context of a method is calling obj; bar.deliverMessage is a method of the bar obj; bar.deliverMessage is invoked with bar as the exec context, i.e. 'this' is equal to bar
+// bar.deliverMessage is a method of the bar obj
+// implicit exec context of a method is the calling obj, so this.message refs the 'message' property of bar
 // from the Solution ... "this.message resolves to bar's property message"
 
 
@@ -128,7 +130,7 @@ function outputList() {
   });
 }
 
-// invoke outputList on the fruitsObj using apply;
+// invoke outputList on the fruitsObj using .apply;
 // pass fruitsObj.list as a list of args for the fn
 outputList.apply(fruitsObj, fruitsObj.list);
 // outputList.call(fruitsObj, ...fruitsObj.list); // this works too ...

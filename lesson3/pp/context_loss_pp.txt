@@ -20,6 +20,7 @@ logReturnVal(turk.getDescription);
 // so the output will be
 // => undefined undefined is a undefined.
 
+
 2.
 let turk = {
   firstName: 'Christopher',
@@ -30,13 +31,17 @@ let turk = {
   }
 };
 
+//function logReturnVal(func) {
 function logReturnVal(func, context) { ***
+  //let returnVal = func();
   let returnVal = func.call(context); // ***
-  // let returnVal = func.bind(context)(); // *** this works too ...
+  //let returnVal = func.bind(context)(); // *** this works too ...
   console.log(returnVal);
 }
 
+//logReturnVal(turk.getDescription);
 logReturnVal(turk.getDescription, turk); // ***
+
 
 3.
 let turk = {
@@ -53,8 +58,11 @@ function logReturnVal(func) {
   console.log(returnVal);
 }
 
+//logReturnVal(turk.getDescription);
 let getTurkDescription = turk.getDescription.bind(turk); // ***
 logReturnVal(getTurkDescription); // ***
+//console.log(getTurkDescription()); // *** this works too
+
 
 4.
 let TESgames = {
@@ -71,19 +79,21 @@ TESgames.listGames(); // => undefined Arena (etc)
 // the forEach cb has no explicit exec context;
 // so 'this' refs the global obj in this.seriesTitle
 
+
 5.
 let TESgames = {
   titles: ['Arena', 'Daggerfall', 'Morrowind', 'Oblivion', 'Skyrim'],
   seriesTitle: 'The Elder Scrolls',
   listGames() {
-    // this.titles.forEach(function(title) {
+    //this.titles.forEach(function(title) {
     this.titles.forEach(title => { // ***
-      console.log(this.seriesTitle + ' ' + title); // exec context resolves to the immed surrounding scope, i.e. TESgames
+      console.log(this.seriesTitle + ' ' + title); // exec context resolves to the context of the immed surrounding scope, i.e. TESgames
     });
   }
 };
 
-TESgames.listGames();
+TESgames.listGames(); // => The Elder Scrolls Arena (etc)
+
 
 6.
 let TESgames = {
@@ -92,12 +102,14 @@ let TESgames = {
   listGames() {
     let self = this; // ***
     this.titles.forEach(function(title) {
+      //console.log(this.seriesTitle + ' ' + title);
       console.log(self.seriesTitle + ' ' + title); // ***
     });
   }
 };
 
 TESgames.listGames();
+
 
 7.
 let TESgames = {
@@ -111,6 +123,7 @@ let TESgames = {
 };
 
 TESgames.listGames();
+
 
 8.
 let foo = {
@@ -129,6 +142,7 @@ foo.incrementA();
 foo.incrementA();
 console.log(foo.a); // => 0
 
+
 9.
 let foo = {
   a: 0,
@@ -137,6 +151,7 @@ let foo = {
       this.a += 1;
     }
 
+    //increment();
     increment.call(this); // ***
   }
 };
@@ -146,18 +161,23 @@ foo.incrementA();
 foo.incrementA();
 console.log(foo.a); // => 3
 
+
 10.
 let foo = {
   a: 0,
   incrementA() {
+    //function increment() {
     let increment = function () { // *** must use a fn expr
       this.a += 1;
     }.bind(foo); // *** bind the fn to foo
     // }.bind(this); // *** 'this' already refs foo, so this works too ...
 
-    increment();
-    increment();
-    increment();
+    //increment.apply(this);
+    //increment.apply(this);
+    //increment.apply(this);
+    increment(); // ***
+    increment(); // ***
+    increment(); // ***
   }
 };
 

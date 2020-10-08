@@ -23,13 +23,16 @@ let drill = {
 	price: 45,
 };
 
+
 // pp2
 function setPrice(product, newPrice = 0) {
 	if (newPrice < 0) alert('Price is negative');
 	else product.price = newPrice;
 }
+
 setPrice(drill, 42.50);
 console.log(drill);
+
 
 // pp3
 function describeProduct(product) {
@@ -38,6 +41,7 @@ function describeProduct(product) {
 	console.log(`Price: $${product.price}`);
 	console.log(`Stock: ${product.stock}`);
 }
+
 describeProduct(scissors);
 // => Name: Scissors
 // => ID: 0

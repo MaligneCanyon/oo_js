@@ -92,7 +92,6 @@ people.rollCall();
 
 console.log(people.getIndex(dog)); // 4
 console.log(people.getIndex({ firstName: 'Dusty', lastName: 'Dog', })); // 4; but dif objs
-people.remove(dog);
 people.rollCall();
 
 let cat = {

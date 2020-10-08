@@ -6,7 +6,6 @@
 const SUITS = ["Clubs", "Diamonds", "Hearts", "Spades"];
 const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9",
                "10", "Jack", "Queen", "King", "Ace"];
-let deck;
 
 function createDeck() {
   // allCards = () => { // *** global var
@@ -19,7 +18,8 @@ function createDeck() {
     }, []);
   };
 
-  deck = allCards(); // *** global var
+  // deck = allCards(); // *** global var
+  let deck = allCards();
   shuffle(deck);
 
   return deck;

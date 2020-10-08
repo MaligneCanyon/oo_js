@@ -8,8 +8,14 @@ let invoices = { // pp1
     this.unpaid.push({ name, amount });
   },
 
+  // totalDue: function () { // pp3
+  //   return this.unpaid.reduce((accum, obj) => accum + obj.amount, 0);
+  // },
+  total: function (arr) { // pp3
+    return arr.reduce((accum, obj) => accum + obj.amount, 0);
+  },
   totalDue: function () { // pp3
-    return this.unpaid.reduce((accum, obj) => accum + obj.amount, 0);
+    return this.total(this.unpaid);
   },
 
   clear: function () { // extra
@@ -26,8 +32,11 @@ let invoices = { // pp1
     this.unpaid = arr;
   },
 
+  // totalPaid: function () { // pp6
+  //   return this.paid.reduce((accum, obj) => accum + obj.amount, 0);
+  // },
   totalPaid: function () { // pp6
-    return this.paid.reduce((accum, obj) => accum + obj.amount, 0);
+    return this.total(this.paid);
   },
 };
 
