@@ -3,7 +3,7 @@
 
 // function() {
 //   console.log("Sometimes, syntax isn't intuitive!")
-// }();
+// }(); // raises a SyntaxError
 
 (function() {
   console.log("Sometimes, syntax isn't intuitive!")

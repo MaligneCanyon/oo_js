@@ -1,7 +1,7 @@
-let account = {
+let account = { // proj1
   balance: 0,
 
-  deposit (amount) {
+  deposit (amount) { // proj2
     this.balance += amount;
     return amount;
   },

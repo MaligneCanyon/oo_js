@@ -6,10 +6,10 @@ function makeList() {
       else console.log('The list is empty.');
     } else if (todos.includes(todo)) {
       todos.splice(todos.indexOf(todo), 1);
-      console.log(`${todo} removed!`);
+      console.log(todo + ' removed!');
     } else {
       todos.push(todo);
-      console.log(`${todo} added!`);
+      console.log(todo + ' added!');
     }
   };
 }

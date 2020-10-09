@@ -10,7 +10,7 @@ let countdown = function (num) {
     console.log('Done!');
   }();
 };
-// convoluted; works w/ line2 and line11 commented out (i.e. the IIFE is n/r)
+// convoluted; works w/ lines 2 and 11 commented out (i.e. the IIFE is n/r)
 // Note: it's not necessary to pass 'num' to the IIFE (as suggested in the Solution);
 // num is an outer-scoped var, which is accessible w/i an inner-scoped fn
 

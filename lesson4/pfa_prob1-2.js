@@ -19,13 +19,13 @@ let sayHello = partial(greet, 'hello');
 let sayHi = partial(greet, 'hi');
 
 // this also works, but is less generalized ...
-// function gen(salutation) {
+// function partial(salutation) {
 //   return function(name) {
 //     return greet(salutation, name);
 //   };
 // }
-// let sayHello = gen('hello');
-// let sayHi = gen('hi');
+// let sayHello = partial('hello');
+// let sayHi = partial('hi');
 
 sayHello('Brandon');
 // Hello, Brandon!

@@ -1,11 +1,11 @@
 let countdown = function (num) {
-  return (function logger() {
+  return (function numLogger() {
     console.log(num);
     if (num-- === 0) {
       console.log('Done!');
       return;
     }
-    logger(); // recursion
+    numLogger(); // recursion
   })();
 };
 

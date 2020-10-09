@@ -1,20 +1,20 @@
 function makeList() {
   let todos = []; // prevents access to todos outside the fn
 
-  let obj = {
+  return {
+    add (todo) {
+      if (todos.includes(todo)) console.log(todo + ' already exists.');
+      else {
+        todos.push(todo);
+        console.log(todo + ' added!');
+      }
+    },
+
     remove (todo) {
       if (todos.includes(todo)) {
         todos.splice(todos.indexOf(todo), 1);
-        console.log(`${todo} removed!`);
-      } else console.log(`${todo} was not found.`);
-    },
-
-    add (todo) {
-      if (todos.includes(todo)) console.log(`${todo} already exists.`);
-      else {
-        todos.push(todo);
-        console.log(`${todo} added!`);
-      }
+        console.log(todo + ' removed!');
+      } else console.log(todo + ' was not found.');
     },
 
     list () {
@@ -24,11 +24,9 @@ function makeList() {
 
     clear () {
       todos = [];
-      console.log(`The list was cleared!`);
-    }
+      console.log('The list was cleared!');
+    },
   };
-
-  return obj;
 }
 
 
@@ -45,7 +43,7 @@ console.log();
 list.add('a');            //=> a added!
 list.add('b');            //=> b added!
 list.add('c');            //=> c added!
-list.clear();             //=> The list was cleared.
+list.clear();             //=> The list was cleared!
 console.log();
 
 list.list();

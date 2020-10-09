@@ -1,6 +1,6 @@
 // the declaration of 'function sum' is hoisted to the top of the code;
 // the declaration of 'var sum' is hoisted, seen as duplicate, and ignored;
-// the assignment of sum to 0 illustrates dynamic typing; sum is no longer a fn,
+// the assignment of '0' to sum illustrates dynamic typing; sum is no longer a fn,
 // so when the code attempts to invoke sum as a fn in 'sum += sum(numbers)', an err is raised
 
 var sum = 0;

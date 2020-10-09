@@ -1,4 +1,4 @@
-let inventory = (function() {
+let inventory = function() {
   let stocks = [];
 
   function isValid(newStock) {
@@ -15,7 +15,7 @@ let inventory = (function() {
       else console.log(newStock.name + ' already exists');
     },
   };
-})();
+}();
 
 
 inventory.addStock({
@@ -39,4 +39,4 @@ inventory.stocks.push({
   name: 'ballpen',
   count: 5,
 });
-// results in an error
+// raises a TypeError

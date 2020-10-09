@@ -1,5 +1,5 @@
-let account = {
-  balance: 0, // proj1
+let account = { // proj1
+  balance: 0,
   transactions: [], // proj4
 
   deposit (amount) { // proj2

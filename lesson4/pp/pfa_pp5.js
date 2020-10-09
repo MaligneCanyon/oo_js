@@ -29,7 +29,9 @@ mathRollCall(subjects['Math']);
 // => Gary
 // => Susan
 
-mathRollCall(subjects['English']); // not really math ...
+let makeSubjRollCall = makeMathRollCall; // not just math ... rename the generator fn
+let subjRollCall = makeSubjRollCall(); // more generally ... rename the applicator
+subjRollCall(subjects['English']);
 // => English:
 // => Bob
 // => Tyrone

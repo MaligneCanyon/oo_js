@@ -3,7 +3,7 @@ function multiply(a, b) {
 }
 
 function makePartialFunc(func, n) { // Note the pattern: //    n
-  return function(m) {                                   // m
+  return function (m) {                                  // m
     return func(m, n);                                   // m, n
   };
 }

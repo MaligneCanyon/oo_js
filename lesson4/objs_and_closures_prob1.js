@@ -1,21 +1,21 @@
 // see file ../lesson4/closures_prob2.js
 function makeList() {
-  let obj = {
+  return {
     todos: [], // makes the todos list a property of the obj (accessible outside the fn)
+
+    add (todo) {
+      if (this.todos.includes(todo)) console.log(todo + ' already exists.');
+      else {
+        this.todos.push(todo);
+        console.log(todo + ' added!');
+      }
+    },
 
     remove (todo) {
       if (this.todos.includes(todo)) {
         this.todos.splice(this.todos.indexOf(todo), 1);
-        console.log(`${todo} removed!`);
-      } else console.log(`${todo} was not found.`);
-    },
-
-    add (todo) {
-      if (this.todos.includes(todo)) console.log(`${todo} already exists.`);
-      else {
-        this.todos.push(todo);
-        console.log(`${todo} added!`);
-      }
+        console.log(todo + ' removed!');
+      } else console.log(todo + ' was not found.');
     },
 
     list () {
@@ -23,8 +23,6 @@ function makeList() {
       else console.log('The list is empty.');
     },
   };
-
-  return obj;
 }
 
 

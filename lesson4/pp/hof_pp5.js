@@ -10,9 +10,7 @@
 // console.log(timesTwo(3)); // 6
 
 function makeListTransformer(func) {
-  return function (arr) {
-    return arr.map(func);
-  }
+  return (arr) => arr.map(func);
 }
 
 let timesTwo = makeListTransformer(function(number) {

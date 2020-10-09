@@ -1,6 +1,7 @@
 1.
 JS is a GC'd language; mem alloc / de-alloc is handled autom when objs and primitive values are created / no longer ref'd
 
+
 2.
 let myNum = 1;
 
@@ -20,6 +21,7 @@ foo();
 
 // more code
 
+
 3.
 let outerFoo;
 
@@ -35,6 +37,7 @@ bar();
 // globally-scoped outerFoo var
 
 // more code
+
 
 4.
 function makeEvenCounter() {
@@ -54,6 +57,7 @@ let evenCounter = makeEvenCounter();
 // requires access to that value through 'index' until evenCounter has been
 // invoked
 
+
 5.
 let bash = "Some val";
 
@@ -62,3 +66,4 @@ let bash = "Some val";
 // Note: if there was subsequent code in the script, since the str is ref'd by
 // the globally-scoped var 'bash', the str must endure until the ref by bash
 // (or any other ref to it) ceases (ex. bash is reassigned)
+
