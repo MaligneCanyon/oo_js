@@ -12,4 +12,5 @@ Ninja.prototype.swingSword = function() { // adds the swingSword method to the N
 console.log(ninja.swingSword()); //=> true
 
 // adding the method to the Ninja prototype provides method access to all
-// instances of the fn prototype
+// instances of the fn prototype;
+// method lookup occurs at invocation, and not when an obj is instantiated

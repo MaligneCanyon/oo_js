@@ -16,7 +16,7 @@ function newPerson(name) { // PCP
     log: {
       value () { console.log(this.name); },
       writeable: false,
-    }
+    },
   });
 }
 

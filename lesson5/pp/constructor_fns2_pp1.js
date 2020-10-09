@@ -11,10 +11,11 @@ function Triangle(a, b, c) {
 Triangle.prototype = shape; // explicitly set the prototype
 Triangle.prototype.constructor = Triangle; // must reset the constructor after setting the prototype
 
-Triangle.prototype.getPerimeter = function() {
+Triangle.prototype.getPerimeter = function () {
   return this.a + this.b + this.c;
 };
-// equiv to 'shape.getPerimeter = function () { console.log(this.a + this.b + this.c); }'
+// equiv to
+//   shape.getPerimeter = function () { return this.a + this.b + this.c; }
 
 let t = new Triangle(3, 4, 5);
 console.log(t.constructor.toString());      // Triangle(a, b, c)

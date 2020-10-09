@@ -11,7 +11,7 @@
 //   for (let prop in obj) { // enumerable properties only
 //     // if (obj.hasOwnProperty(prop)) {
 //     // guard against property names that are reserved keywords or method names
-//     if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+//     if (Object.prototype.hasOwnProperty.call(obj, prop)) { // call the hasOwnProperty *method*
 //       newObj[prop] = obj[prop];
 //     }
 //   }

@@ -9,7 +9,7 @@ ninjaB = new Ninja();
 
 Ninja.prototype.swing = function () {
   this.swung = !this.swung;
-  return this; // must rtn the context obj (i.e. 'this')
+  return this; // must rtn the context obj (i.e. 'this') when chaining methods
 };
 
 console.log(ninjaA.swing().swung);      // must log true

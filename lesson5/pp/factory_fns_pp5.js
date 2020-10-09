@@ -12,6 +12,7 @@ function createInvoice(services = {}) {
       return this.payments.reduce((accum, payment) => accum + payment.total(), 0);
     },
     amountDue () {
+      // return this.total() - paymentTotal(payments); // this works
       return this.total() - this.totalPayments();
     },
   };
@@ -26,6 +27,17 @@ function createPayment(services = {}) {
     total () { return this.phone + this.internet + this.amount; },
   };
 }
+
+// function paymentTotal(payments) {
+//   let total = 0;
+//   let i;
+
+//   for (i = 0; i < payments.length; i += 1) {
+//     total += payments[i].total();
+//   }
+
+//   return total;
+// }
 
 
 let invoice = createInvoice({

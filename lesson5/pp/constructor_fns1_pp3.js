@@ -2,7 +2,7 @@
 //   this.area = function () { return Math.PI * radius * radius; };
 // }
 
-// alt, from the Solution ...
+// alt, from the Solution ... (uses the PCP)
 function Circle(radius) {
   this.radius = radius;
 }
