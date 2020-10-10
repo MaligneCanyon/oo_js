@@ -3,7 +3,7 @@
 //     name of a user.
 //   reanonymize: This method generates a new 16 character sequence and reassigns it to the
 //     displayName property if the password provided is valid. Returns true if successfully
-//   re-anonymized. Returns 'Invalid Password' if the password provided is not valid.
+//     re-anonymized. Returns 'Invalid Password' if the password provided is not valid.
 //   resetPassword: This method asks the user for a new password and reassigns it to the password
 //     property. To reset the password, the user must provide the current password. Returns
 //     'Invalid Password' if the password provided is not valid. Returns true if the password is
@@ -50,6 +50,14 @@ let Account = function () {
       return 'Invalid Password';
     },
 
+    resetPassword(password, newPassword) {
+      if (validPassword.call(this, password)) {
+        this.password = newPassword;
+        return true;
+      }
+      return 'Invalid Password';
+    },
+
     firstName(password) {
       return validPassword.call(this, password) ? this.fName : 'Invalid Password';
     },
@@ -61,16 +69,9 @@ let Account = function () {
     email(password) {
       return validPassword.call(this, password) ? this.em : 'Invalid Password';
     },
-
-    resetPassword(password, newPassword) {
-      if (validPassword.call(this, password)) {
-        this.password = newPassword;
-        return true;
-      }
-      return 'Invalid Password';
-    },
   };
-}();
+}(); // rtns an Account prototype obj
+
 
 const fooBar = Object.create(Account).init('foo@bar.com', '123456', 'foo', 'bar');
 // console.log(fooBar);

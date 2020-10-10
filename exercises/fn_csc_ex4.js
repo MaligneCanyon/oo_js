@@ -1,4 +1,4 @@
-// using 'apply'
+// using 'apply' ... basically a PFA-style def
 function myBind(func, obj) {
   return function (...args) {
     return func.apply(obj, args);
@@ -10,13 +10,7 @@ function myBind(func, obj) {
 //   return function (...args) { // rest syntax
 //     return func.call(obj, ...args); // spread syntax
 //   };
-// }using 'apply'
-function myBind(func, obj) {
-  return function (...args) {
-    return func.apply(obj, args);
-  };
-}
-
+// }
 
 const franchise = {
   name: 'How to Train Your Dragon',
@@ -28,8 +22,8 @@ const franchise = {
 };
 
 console.log(franchise.allMovies()); //=>
-[
-  'How to Train Your Dragon 1',
-  'How to Train Your Dragon 2',
-  'How to Train Your Dragon 3'
-]
+// [
+//   'How to Train Your Dragon 1',
+//   'How to Train Your Dragon 2',
+//   'How to Train Your Dragon 3'
+// ]

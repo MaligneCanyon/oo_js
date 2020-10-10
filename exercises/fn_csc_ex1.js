@@ -8,7 +8,7 @@ const person = {
 };
 
 // context (i.e. the value of 'this') outside a fn is the global object,
-// where firstName and lastName are undefined
+// where firstName and lastName are undefined (they are defined on 'person')
 console.log(person.fullName); //=> NaN // undefined + undefined
 
 // context of an obj method is the owning obj

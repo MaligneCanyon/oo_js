@@ -4,12 +4,13 @@ let Person = function (firstName, lastName, age, gender) {
   this.age = age;
   this.gender = gender;
 }
-Person.prototype.eat = () => console.log('Eating');
-Person.prototype.communicate = () => console.log('Communicating');
-Person.prototype.sleep = () => console.log('Sleeping');
-// why doesn't the following work ? because arrow fns don't have a 'this' binding
+// why doesn't the following work ? because arrow fns don't have a 'this' binding;
+// so 'this' is determined by the surrounding lexical scope (the global obj here)
 // Person.prototype.fullName = () => `${this.firstName} ${this.lastName}`;
 Person.prototype.fullName = function () { return `${this.firstName} ${this.lastName}`; };
+Person.prototype.communicate = () => console.log('Communicating');
+Person.prototype.eat = () => console.log('Eating');
+Person.prototype.sleep = () => console.log('Sleeping');
 
 // let Doctor = function(firstName, lastName, age, gender, specialization) {
 //   Person.call(this, firstName, lastName, age, gender);

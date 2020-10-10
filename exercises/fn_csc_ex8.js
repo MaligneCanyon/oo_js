@@ -13,16 +13,17 @@ function newStack() {
       return stack.pop();
     },
     printStack () {
+      console.log(stack); // for testing
       stack.forEach(value => console.log(value));
     },
   };
 }
 
 let stacked = newStack();
-console.log(stacked.push(1));
-console.log(stacked.push(2));
-console.log(stacked.push(3));
-console.log(stacked.pop());
-console.log(stacked.push(4));
-stacked.printStack();
+stacked.push(1);
+stacked.push(2);
+stacked.push(3);
+stacked.pop();
+stacked.push(4);
+stacked.printStack(); //=> 1,2,4
 console.log(stacked.stack); // undefined

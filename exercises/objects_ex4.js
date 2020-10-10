@@ -17,27 +17,24 @@ function createStudent(name, year) {
       let result = this.courses.filter(course => course.code === courseCode);
       return result.length === 1 ? result[0] : null;
     },
-    info () { console.log(`${name} is a ${year} year student`)},
-    addCourse (course) { this.courses.push(course); },
-    listCourses () { console.log(this.courses); },
-    addNote(code, text) {
+    writeNote(code, text, mode) { // could be a private fn
       let course = this.getCourse(code);
       if (course) { // the course exists
-        if (Object.keys(course).includes('note')) course.note += '; ' + text;
+        if (mode === 'add' && Object.keys(course).includes('note'))
+          course.note += `; ${text}`;
         else course.note = `${course.name}: ${text}`;
       } else console.log(`Course code ${code} not found`);
     },
+    info () { console.log(`${name} is a ${year} year student`)},
+    addCourse (course) { this.courses.push(course); },
+    listCourses () { console.log(this.courses); },
+    addNote(code, text) { this.writeNote(code, text, 'add'); },
+    updateNote(code, text) { this.writeNote(code, text, 'update'); },
     viewNotes() {
       // this.courses.filter(course => course.note).forEach(course => console.log(course.note));
       this.courses.forEach(course => {
         if (course.note) console.log(course.note);
       });
-    },
-    updateNote(code, text) {
-      let course = this.getCourse(code);
-      if (course) { // the course exists
-        course.note = `${course.name}: ${text}`;
-      } else console.log(`Course code ${code} not found`);
     },
   };
 }
