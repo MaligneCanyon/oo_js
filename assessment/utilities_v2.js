@@ -27,12 +27,12 @@
 
 
 // Utility methods. These should work with either syntax (i.e. _.isElement(obj) or _(obj).isElement()).
-//     [optional, feel free to check out the video for the answer] isElement, return true if argument is a
-//       DOM element.
+//     isElement, return true if argument is a DOM element.
 //     isArray, return true if argument is an array.
 //     isObject, return true if argument is an object or a function.
 //     isFunction, return true if argument is a function.
-//     isString, return true if argument is a string.
+//     isString, return true if argument is a string. Also returns true for objects created with the
+//       String constructor.
 //     isNumber, return true if argument is a number. Also returns true for objects created with the
 //       Number constructor.
 //     isBoolean, return true if argument is a boolean. Also returns true for objects created with the
@@ -40,8 +40,7 @@
 
 (function () {
   var _ = function(element) { // element can be an obj, arr, arr of objs, etc.
-
-    u = { // def methods attached to the rtn'd obj here ...
+    let u = { // def methods attached to the rtn'd obj here ...
       // arr methods
       first () {
         return element[0];
@@ -108,10 +107,81 @@
       has (key) {
         return this.keys(element).includes(key);
       },
+
+      // why aren't util methods just def'd here ???
     };
+
+    // util methods
+    // attach the listed method names to the rtn'd obj ... allows alt method call format ???
+    ([
+      'isElement',
+      'isArray',
+      'isObject',
+      'isFunction',
+      'isString',
+      'isNumber',
+      'isBoolean'
+    ]).forEach(function(method) {
+      u[method] = function () { _[method].call(u, element); };
+    });
 
     return u;
   };
+
+
+  // arr static methods
+  _.range = function (min, max) {
+    let arr = [];
+
+    if (max === undefined) {
+      if (min === undefined) return [];
+      max = min;
+      min = 0;
+    }
+
+    for (let value = min; value < max; value++) arr.push(value);
+    return arr;
+  };
+
+
+  // obj static methods
+  _.extend = function (...args) {
+    for (ndx = args.length - 1; ndx > 0; ndx--) {
+      Object.keys(args[ndx]).forEach(key => args[ndx - 1][key] = args[ndx][key]);
+      let x = 1;
+    }
+    return args[0];
+  };
+
+
+  // util (static ???) methods
+  _.isElement = function (obj) {
+    return obj && obj.nodeType === 1;
+  };
+  _.isArray = Array.isArray || function (obj) { // use the built-in method for newer browsers
+    return toString.call(obj) === '[object Array]';
+  };
+  _.isObject = function (obj) {
+    return typeof(obj) === 'function' || typeof(obj) === 'object' && obj;
+  };
+  _.isFunction = function (obj) {
+    // return toString.call(obj) === '[object Function]';
+    return typeof(obj) === 'function'; // this works too
+  };
+  // _.isString = function (obj) {
+  //   return toString.call(obj) === '[object String]';
+  // };
+  // _.isNumber = function (obj) {
+  //   return toString.call(obj) === '[object Number]';
+  // };
+  // _.isBoolean = function (obj) {
+  //   return toString.call(obj) === '[object Boolean]';
+  // };
+  ['String', 'Number', 'Boolean'].forEach(method => {
+    _['is' + method] = function (obj) {
+      return toString.call(obj) === '[object ' + method + ']';
+    };
+  });
 
   // attach _ to the global obj; otherwise, it is undefined outside the closure
   window._ = _; // in a browser
@@ -119,32 +189,13 @@
 })();
 
 
-// def static methods on the parent obj starting here ...
-
-// arr static methods
-_.range = function (min, max) {
-  let arr = [];
-
-  if (max === undefined) {
-    if (min === undefined) return [];
-    max = min;
-    min = 0;
-  }
-
-  for (let value = min; value < max; value++) arr.push(value);
-  return arr;
-};
-
-// obj static methods
-_.extend = function (...args) {
-  for (ndx = args.length - 1; ndx > 0; ndx--) {
-    Object.keys(args[ndx]).forEach(key => args[ndx - 1][key] = args[ndx][key]);
-    let x = 1;
-  }
-  return args[0];
-};
-
-
+// arr method tests
 // console.log(_([2,4,6,8,10]).sample(2)); // rtns an arr of ints
 // console.log(_([2,4,6,8,10]).sample(1)); // rtns a single int; could rtn a single-elem arr instead
 // console.log(_([2,4,6,8,10]).sample());  // rtns a single int
+
+// util method tests
+let obj = document.body;
+console.log(_.isElement(obj));  //=> T
+obj = { foo: 'bar'};
+console.log(_(obj).isElement);  //=> F
