@@ -24,6 +24,7 @@ let makeTodoList = function () {
     for (let ndx = 0; ndx < todos.length; ndx++) {
       if (todos[ndx].id === id) return ndx;
     }
+
     todoErrMsg(-1);
     return -1;
   }
@@ -56,7 +57,8 @@ let makeTodoList = function () {
     console.log(msg);
   }
 
-  function invalidTodo(todo) {
+  // function invalidTodo(todo) {
+  function isValidTodo(todo) { // ***2
     function invalidObject(obj) {
       return (obj && typeof(obj) === 'object') ? 0 : -2;
     }
@@ -88,15 +90,23 @@ let makeTodoList = function () {
              Number(obj.year) > maxYear) ? -6 : 0;
     }
 
-    return invalidObject(todo) || invalidPropertyName(todo) || invalidDataType(todo) ||
-           invalidMonth(todo) || invalidYear(todo);
+    // return invalidObject(todo) || invalidPropertyName(todo) || invalidDataType(todo) ||
+    //        invalidMonth(todo) || invalidYear(todo);
+    // ***2
+    let code = invalidObject(todo) || invalidPropertyName(todo) || invalidDataType(todo) ||
+               invalidMonth(todo) || invalidYear(todo);
+    if (code) todoErrMsg(code);
+    return !code; // rtns a boolean; equivalent to:  return code ? false : true;
   }
 
   return {
-    addTodo (todoData) {
-      let code = invalidTodo(todoData);
-      if (code) todoErrMsg(code);
-      else todos.push(Object.create(Todo).init(todoData, ++id));
+    // addTodo (todoData) {
+    //   let code = invalidTodo(todoData);
+    //   if (code) todoErrMsg(code);
+    //   else todos.push(Object.create(Todo).init(todoData, ++id));
+    // },
+    addTodo (todoData) { // ***2
+      if (isValidTodo(todoData)) todos.push(Object.create(Todo).init(todoData, ++id));
     },
 
     removeTodo (id) {
@@ -109,14 +119,18 @@ let makeTodoList = function () {
       if (ndx !== -1) return Object.assign({}, todos[ndx]); // return a clone
     },
 
-    updateTodo (id, properties) {
-      let code;
+    // updateTodo (id, properties) {
+    //   let code;
+    //   let ndx = todoNdx(id);
+    //   if (ndx !== -1) {
+    //     code = invalidTodo(properties);
+    //     if (code) todoErrMsg(code); // we could still update the remaining valid properties ...
+    //     else Object.assign(todos[ndx], properties);
+    //   }
+    // },
+    updateTodo (id, properties) { // ***2
       let ndx = todoNdx(id);
-      if (ndx !== -1) {
-        code = invalidTodo(properties);
-        if (code) todoErrMsg(code); // we could still update the remaining valid properties ...
-        else Object.assign(todos[ndx], properties);
-      }
+      if (ndx !== -1 && isValidTodo(properties)) Object.assign(todos[ndx], properties);
     },
 
     init (todoData) {
@@ -125,7 +139,11 @@ let makeTodoList = function () {
     },
 
     getTodos () {
-      return todos;
+      // return todos;
+
+      // return a copy of each todo; the copy must have access to shared methods
+      // defined on the Todo prototype
+      return todos.map(todo => Object.assign(Object.create(Todo), todo)); // ***1
     },
   };
 };
@@ -209,21 +227,18 @@ var todoData1 = {
   year: '2017',
   description: 'Milk for baby',
 };
-
 var todoData2 = {
   title: 'Buy Apples',
   month: '',
   year: '2017',
   description: 'An apple a day keeps the doctor away',
 };
-
 var todoData3 = {
   title: 'Buy chocolate',
   month: '1',
   year: '',
   description: 'For the cheat day',
 };
-
 var todoData4 = {
   title: 'Buy Veggies',
   month: '',
@@ -239,16 +254,16 @@ todoListObj.init(todoSet);
 console.log(todoListObj.getTodos());    // logged array contains all 4 todo objs; ids are sequential
 
 todoListObj = makeTodoList();
-todoListObj.init(todoSet1);
+todoListObj.init(todoSet1);             // => Invalid todo object
 console.log(todoListObj.getTodos());    // logged array contains the only the 3 valid todo objs
 todoListObj.init(todoData0);
 console.log(todoListObj.getTodos());    // logged array now contains 4 valid todo objs
 
 // addTodo()
 todoListObj = makeTodoList();
-todoListObj.addTodo(todoData0);
+todoListObj.addTodo(todoData0);         // valid todo
 console.log(todoListObj.getTodos());    // logged array only contains the todoData0 obj
-todoListObj.addTodo(todoData5);         // invalid todo
+todoListObj.addTodo(todoData5);         // => Invalid todo object
 console.log(todoListObj.getTodos());    // logged array only contains the todoData0 obj
 
 // removeTodo()
@@ -271,7 +286,7 @@ console.log(todoListObj.getTodo(2)); // logs the specified todo with updated pro
 todoListObj.updateTodo(2, { summary: 'Fall harvest' }); // rejects the invalid property name
 console.log(todoListObj.getTodo(2)); // logs the specified todo with valid properties
 todoListObj.updateTodo(77, { title: 'Fall harvest' });  // rejects the invalid todo id
-todoListObj.updateTodo(2, { completed: 'true' });
+todoListObj.updateTodo(2, { completed: 'true' });       // updates the specified todo
 console.log(todoListObj.getTodo(2)); // logs the specified todo with updated property values
 
 
@@ -281,15 +296,19 @@ let todoManager = function () {
       this.todoObj = todoObj;
       return this;
     },
+
     getTodos () {
       return this.todoObj.getTodos();
     },
+
     getCompletedTodos () {
       return this.getTodos().filter(todo => todo.completed === 'true');
     },
+
     getMonthYearTodos (month, year) {
       return this.getTodos().filter(todo => todo.isWithinMonthYear(String(month), String(year)));
     },
+
     getCompletedMonthYearTodos (month, year) {
       return this.getTodos().filter(todo => {
         return todo.completed === 'true' && todo.isWithinMonthYear(String(month), String(year));
@@ -300,13 +319,25 @@ let todoManager = function () {
 
 
 // todoManager
+// getTodos(), completedTodos()
 let tdMgr = todoManager.init(todoListObj);
-console.log(tdMgr.getTodos());                      // logged array contains the 3 remaining todos
-console.log(tdMgr.getCompletedTodos());             // logged array contains todo with id 2
+console.log(tdMgr.getTodos());                          // logged array contains the 3 remaining todos
+console.log(tdMgr.getCompletedTodos());                 // logged array contains todo with id 2
 todoListObj.updateTodo(4, { completed: 'true' });
-console.log(tdMgr.getTodos());                      // logged array contains the updated todo
-console.log(tdMgr.getCompletedTodos());             // logged array contains todos with ids 2, 4
-console.log(tdMgr.getMonthYearTodos(10, 2020)); // logged array contains todo with id 2
+console.log(tdMgr.getTodos());                          // logged array contains the updated todo
+console.log(tdMgr.getCompletedTodos());                 // logged array contains todos with ids 2, 4
+
+// ***1
+let obj0 = todoListObj.getTodos()[0];
+console.log(Todo.isPrototypeOf(obj0));                  // => true; obj0 has access to the Todo prototype
+console.log(obj0.isWithinMonthYear('1', '2017'));       // => true; obj0 has access to Todo prototype methods
+todoListObj.updateTodo(1, { title: 'new value' });
+console.log(todoListObj.getTodos()[0]);                 // => { title: 'new value', ... }
+todoListObj.getTodos()[0].title = 'mutate';
+console.log(todoListObj.getTodos()[0]);                 // => { title: 'new value', ... }
+
+// misc filtering methods
+console.log(tdMgr.getMonthYearTodos(10, 2020));         // logged array contains todo with id 2
 console.log(tdMgr.getCompletedMonthYearTodos(1, 2017)); // logged array is empty
 todoListObj.updateTodo(1, { completed: 'true' });
 console.log(tdMgr.getCompletedMonthYearTodos(1, 2017)); // logged array contains todo with id 1
