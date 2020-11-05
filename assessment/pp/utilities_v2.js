@@ -10,6 +10,7 @@
 //       non-repeated elements when a quantity is supplied.
 
 // Object and object collection methods to create:
+// (i.e. methods to create for an obj and a collection of objs)
 //     findWhere, return the first object with properties that match the supplied object. If no objects match
 //       all the supplied properties, undefined is returned.
 //     where, return an array of all objects with properties that match the supplied object.
@@ -25,7 +26,6 @@
 //     omit, return a new object with any passed in properties omitted.
 //     has, return true when the property passed in exists, false if it doesn't.
 
-
 // Utility methods. These should work with either syntax (i.e. _.isElement(obj) or _(obj).isElement()).
 //     isElement, return true if argument is a DOM element.
 //     isArray, return true if argument is an array.
@@ -40,8 +40,12 @@
 
 (function () {
   var _ = function(element) { // element can be an obj, arr, arr of objs, etc.
+                              // - element has access to the methods of the rtn'd obj
+                              //   (why ?) because it is passed tp _() as an arg
+                              // - ex. _([1,2,3]).last(); // 3
     let u = { // def methods attached to the rtn'd obj here ...
-      // arr methods
+
+      // Array methods
       first () {
         return element[0];
       },
@@ -58,18 +62,32 @@
 
         return -1;
       },
-      sample (num = 1) {
-        let temp = element;
+      sample (num) {
+        if (num === undefined) return element[Math.floor(Math.random() * element.length)];
+
+        let temp = element.slice(); // shouldn't mutate 'element'
         let samples = [];
         for (let ndx; num > 0; num--) {
           ndx = Math.floor(Math.random() * temp.length);
           samples.push(temp.splice(ndx, 1)[0]);
         }
 
-        return samples.length === 1 ? samples[0] : samples;
+        return samples;
       },
+      // as per the result w/ no arg, this version also rtns a single int if the arg is equal to 1
+      // sample (num = 1) {
+      //   let temp = element.slice(); // shouldn't mutate 'element'
+      //   let samples = [];
+      //   for (let ndx; num > 0; num--) {
+      //     ndx = Math.floor(Math.random() * temp.length);
+      //     samples.push(temp.splice(ndx, 1)[0]);
+      //   }
 
-      // obj methods
+      //   return samples.length === 1 ? samples[0] : samples;
+      // },
+
+
+      // Object methods
       findWhere (obj) {
         return this.where(obj)[0];
       },
@@ -78,13 +96,15 @@
           if (obj1 === obj2) return true;
           let keys1 = Object.keys(obj1);
           let keys2 = Object.keys(obj2);
-          return keys2.every(key => keys1.includes(key) && obj1[key] === obj2[key]);
+          // return keys2.every(key => keys1.includes(key) && obj1[key] === obj2[key]);
+          return keys2.every(key => key in obj1 && obj1[key] === obj2[key]); // from video #2
         }
 
         return element.filter(elem => obj1ContainsObj2(elem, obj));
       },
       pluck (key) {
-        return element.filter(elem => Object.keys(elem).includes(key)).map(elem => elem[key]);
+        // return element.filter(elem => Object.keys(elem).includes(key)).map(elem => elem[key]);
+        return element.filter(elem => key in elem).map(elem => elem[key]);
       },
       keys () {
         return Object.keys(element);
@@ -99,20 +119,28 @@
       },
       omit (...args) {
         let obj = {};
-        this.keys(element).forEach(key => {
+        // this.keys(element).forEach(key => {
+        for (key in element) {
           if (!args.includes(key)) obj[key] = element[key];
-        });
+        }
+        // });
         return obj;
       },
       has (key) {
-        return this.keys(element).includes(key);
+        // return key in element; // includes inherited properties
+        return this.keys(element).includes(key); // excludes inherited properties
+
+        // Note: from video #3
+        // return element.hasOwnProperty(key); // doesn't work if hasOwnProperty has been re-def'd
+        //   so call the Object.prototype vers of hasOwnProperty instead
+        // return {}.hasOwnProperty.call(element, key);
       },
 
-      // why aren't util methods just def'd here ???
+      // the util methods aren't just def'd here because we have two dif syntaxes for the method calls
     };
 
     // util methods
-    // attach the listed method names to the rtn'd obj ... allows alt method call format ???
+    // attach the listed method names to the rtn'd obj (alt syntax; ex. _([1, 2, 3]).isArray(); // true) // this doesn't work !!!
     ([
       'isElement',
       'isArray',
@@ -122,13 +150,15 @@
       'isNumber',
       'isBoolean'
     ]).forEach(function(method) {
-      u[method] = function () { _[method].call(u, element); };
+      // u[method] = function () { _[method].call(u, element); }; // always rtns undefined
+      u[method] = function () { return _[method].call(u, element); };
     });
 
     return u;
   };
 
 
+  // def static methods here as propertes of _
   // arr static methods
   _.range = function (min, max) {
     let arr = [];
@@ -148,21 +178,20 @@
   _.extend = function (...args) {
     for (ndx = args.length - 1; ndx > 0; ndx--) {
       Object.keys(args[ndx]).forEach(key => args[ndx - 1][key] = args[ndx][key]);
-      let x = 1;
     }
     return args[0];
   };
 
-
-  // util (static ???) methods
+  // util methods (static method syntax; ex. _.isArray([1, 2, 3]); // true)
   _.isElement = function (obj) {
-    return obj && obj.nodeType === 1;
+    return !!obj && obj.nodeType === 1;
+    // return obj instanceof Element;
   };
   _.isArray = Array.isArray || function (obj) { // use the built-in method for newer browsers
     return toString.call(obj) === '[object Array]';
   };
   _.isObject = function (obj) {
-    return typeof(obj) === 'function' || typeof(obj) === 'object' && obj;
+    return typeof(obj) === 'function' || typeof(obj) === 'object' && !!obj;
   };
   _.isFunction = function (obj) {
     // return toString.call(obj) === '[object Function]';
@@ -183,19 +212,22 @@
     };
   });
 
-  // attach _ to the global obj; otherwise, it is undefined outside the closure
+  // attach _ (as a property) to the global obj; otherwise, it is undefined outside the closure
   window._ = _; // in a browser
   // global._ = _; // in Node
 })();
 
 
 // arr method tests
-// console.log(_([2,4,6,8,10]).sample(2)); // rtns an arr of ints
-// console.log(_([2,4,6,8,10]).sample(1)); // rtns a single int; could rtn a single-elem arr instead
-// console.log(_([2,4,6,8,10]).sample());  // rtns a single int
+console.log(_([2,4,6,8,10]).sample(2)); // rtns an arr of ints
+console.log(_([2,4,6,8,10]).sample(1)); // rtns a single-elem arr; could rtn a single int instead
+console.log(_([2,4,6,8,10]).sample());  // rtns a single int
 
 // util method tests
-let obj = document.body;
-console.log(_.isElement(obj));  //=> T
-obj = { foo: 'bar'};
-console.log(_(obj).isElement);  //=> F
+console.log(_.isElement(document.body)); //=> true // logs false ???
+console.log(_({ foo: 'bar'}).isElement()); //=> false
+
+console.log(_([1, 2, 3]).isArray()); //=> true
+console.log(_.isArray([1, 2, 3])); //=> true
+console.log(_({ a:1, b:2 }).isObject()); //=> true
+console.log(_.isObject({ a:1, b:2 })); //=> true

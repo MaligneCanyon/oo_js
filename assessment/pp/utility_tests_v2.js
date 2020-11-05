@@ -278,6 +278,9 @@ test("isElement returns true if DOM element, otherwise false", function() {
 test("isArray returns true if array, otherwise false", function() {
   return _.isArray([]) && !_.isArray({ 0: "a", 1: "b" });
 });
+test("isArray returns true if array, otherwise false (alternate syntax)", function() {
+  return _([]).isArray() && !_({ 0: "a", 1: "b" }).isArray();
+});
 test("isObject returns true if object or function, otherwise false", function() {
   return _.isObject({}) && _.isObject([]) && _.isObject(isNaN) && !_.isObject(1);
 });
