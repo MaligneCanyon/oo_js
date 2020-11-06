@@ -184,8 +184,8 @@
 
   // util methods (static method syntax; ex. _.isArray([1, 2, 3]); // true)
   _.isElement = function (obj) {
-    return !!obj && obj.nodeType === 1;
-    // return obj instanceof Element;
+    // return !!obj && obj.nodeType === 1;
+    return obj instanceof Element;
   };
   _.isArray = Array.isArray || function (obj) { // use the built-in method for newer browsers
     return toString.call(obj) === '[object Array]';
@@ -224,7 +224,7 @@ console.log(_([2,4,6,8,10]).sample(1)); // rtns a single-elem arr; could rtn a s
 console.log(_([2,4,6,8,10]).sample());  // rtns a single int
 
 // util method tests
-console.log(_.isElement(document.body)); //=> true // logs false ???
+console.log(_.isElement(document.body)); // true
 console.log(_({ foo: 'bar'}).isElement()); //=> false
 
 console.log(_.isArray([1, 2, 3])); //=> true
