@@ -227,7 +227,10 @@ console.log(_([2,4,6,8,10]).sample());  // rtns a single int
 console.log(_.isElement(document.body)); //=> true // logs false ???
 console.log(_({ foo: 'bar'}).isElement()); //=> false
 
-console.log(_([1, 2, 3]).isArray()); //=> true
 console.log(_.isArray([1, 2, 3])); //=> true
-console.log(_({ a:1, b:2 }).isObject()); //=> true
+console.log(_.isArray('foo')); //=> false
 console.log(_.isObject({ a:1, b:2 })); //=> true
+
+console.log(_([1, 2, 3]).isArray()); //=> true
+console.log(_('foo').isArray()); //=> false
+console.log(_({ a:1, b:2 }).isObject()); //=> true
